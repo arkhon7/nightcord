@@ -1,0 +1,25 @@
+Character Section Component
+
+1. when scrolled to charsection, show the characters
+2. when pressed one of the characters, show the character details and go-back button
+3. all states should be kept 
+
+STATES
+
+	- characterSectionState:
+		- hasScrolledInto
+		- detailState		
+		- charState			
+		- currentCharacter
+			- Kanade							
+			- Mafuyu
+			- Ena
+			- Mizuki
+				- introduction
+				- story
+				- cover
+					- cover mp4
+
+
+GOALS
+	- continue character section
