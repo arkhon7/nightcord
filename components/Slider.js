@@ -49,7 +49,6 @@ export function SlideShow({ children, direction, width, height }) {
 
   const handleWheel = (e) => {
     const index = incrementedPoints.length - 1;
-
     slide.current((state) => {
       if (e.deltaY === -100) {
         // console.log("up");

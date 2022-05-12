@@ -37,7 +37,12 @@ export function CharacterSection() {
     }
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.preventDefault();
+
+    const { id } = e.target;
+    console.log(id);
+
     hideChars();
     showDetails();
   };
@@ -54,7 +59,11 @@ export function CharacterSection() {
   });
 
   return (
-    <div className="relative flex h-full w-full justify-center items-center bg-nightcord-110">
+    <div
+      className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110 char-bg-shadow" // bg-nightcord-110 add this after debugging
+      // TODO add a meaningful blurred background "sekai" on character details
+    >
+      <img src="/bg_school_refusal.png" className="absolute opacity-0"></img>
       <button
         className={`absolute left-2 top-2 w-20 h-20 bg-nightcord-30 ${
           isDetailsVisible ? "visible" : "invisible"
@@ -63,72 +72,107 @@ export function CharacterSection() {
       >
         BACK TO TALENTS
       </button>
+      <CharacterDetails isDetailsVisible={isDetailsVisible} />
 
-      <div className="grid gap-10 grid-cols-4 h-full">
+      <div className="grid gap-10 grid-cols-4 h-full justify-center items-center">
         <div
-          className={`w-[13vw] transistion-all duration-700`}
+          className={`w-[15vw] h-full transistion-all ease-in-out duration-[1.2s]`}
           style={handleShowingChars(50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
             <div
+              id="kanade"
               style={{
                 backgroundImage: "url('/kanade.png')",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleClose}
-              className="blur-sm w-full h-full z-10 transition-all duration-500 hover:blur-none char-box-shadow"
+              className="w-full h-full z-10 transition-all duration-300 char-box-shadow"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[13vw] transistion-all duration-700`}
+          className={`w-[15vw] h-full transistion-all ease-in-out duration-[1.2s]`}
           style={handleShowingChars(-50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
             <div
+              id="mafuyu"
               style={{
                 backgroundImage: "url('/mafuyu.png')",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleClose}
-              className="blur-sm w-full h-full z-10 transition-all duration-500 hover:blur-none char-box-shadow"
+              className="w-full h-full z-10 transition-all duration-300 char-box-shadow"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[13vw] transistion-all duration-700`}
+          className={`w-[15vw] h-full transistion-all ease-in-out duration-[1.2s]`}
           style={handleShowingChars(50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
             <div
+              id="ena"
               style={{
                 backgroundImage: "url('/ena.png')",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleClose}
-              className="blur-sm w-full h-full z-10 transition-all duration-500 hover:blur-none char-box-shadow"
+              className="w-full h-full z-10 transition-all duration-300 char-box-shadow"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[13vw transistion-all duration-700`}
+          className={`w-[15vw] h-full transistion-all ease-in-out duration-[1.2s]`}
           style={handleShowingChars(-50)}
         >
-          <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
+          <div className="CHARBAR relative z-[-1] flex justify-center items-center w-full h-full overflow-hidden">
             <div
-              style={{
-                backgroundImage: "url('/mizuki.png')",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
+              id="mizuki"
               onClick={handleClose}
-              className="blur-sm w-full h-full z-10 transition-all duration-500 hover:blur-none char-box-shadow"
-            ></div>
+              className="absolute w-[1500px] h-full transition-all duration-300 left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] overflow-hidden"
+            >
+              <img
+                src="/mizuki.png"
+                className="absolute w-auto h-full left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] transistion-all duration-500 hover:scale-110"
+              ></img>
+
+              {/*TODO add shadow on the image while keeping the hover effect*/}
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+{
+  /* <div className="relative w-[1500px] h-[1700px] left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
+            
+            <img
+              src="/mizuki.png"
+              className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] hover:scale-150"
+            />
+          </div> */
+}
+
+function CharacterDetails({ isDetailsVisible }) {
+  return (
+    <div
+      className={`DETAILS-CONTAINER absolute flex w-[70vw] justify-center items-center ${
+        isDetailsVisible ? "visible" : "invisible"
+      }`}
+    >
+      <div className="w-[50%] flex flex-col">
+        <img src="/vercel.svg" className="object-contain" />
+      </div>
+      <div className="w-[50%]">
+        <div>FIRST NAME</div>
+        <div>LAST NAME</div>
       </div>
     </div>
   );

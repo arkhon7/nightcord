@@ -7,6 +7,27 @@ import { SlideShow, Slide } from "../components/Slider";
 import { CharacterSection } from "../components/CharacterSection";
 import { Navbar } from "../components/NavBar";
 
+export async function getStaticProps() {
+  const memberData = {
+    mizuki: {
+      firstName: "Mizuki",
+      lastName: "Akiyama",
+      voiceActor: "Satou Hinata",
+      introVideoLink: "https://www.youtube.com/watch?v=u7vu0ubr_nM",
+      position: "MV Creator",
+      gender: "Unknown",
+      birthday: "August 27",
+      height: "163 cm",
+      school: "Kamiyama High School 1-A",
+    },
+    // TODO: add other mem data
+  };
+
+  return {
+    props: {},
+  };
+}
+
 export default function Home() {
   return (
     <div className="w-full h-full">
@@ -42,5 +63,3 @@ export default function Home() {
 }
 
 /// TODO
-// CONTINUE CHARACTER PART - REFACTOR THE OPENING/CLOSING CHARS MECHANISM IN ORDER TO FIX THE DELAY ON OPENING CHARS
-// implement opening modal
