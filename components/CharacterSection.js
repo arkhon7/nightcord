@@ -1,7 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useGlobalState, useCharSectionState } from "../app/store";
 
-export function CharacterSection() {
+export function CharacterSection({ memberData }) {
+  const {
+    showChars,
+    showDetails,
+    hideChars,
+    hideDetails,
+    initChars,
+    specifyMemberData,
+    currentCharacter,
+  } = useCharSectionState();
+
+  // initSection(memberData);
+
   const sectionIndex = useGlobalState((state) => state.sectionIndex);
 
   const hasScrolledInto = useCharSectionState((state) => state.hasScrolledInto);
@@ -10,12 +22,10 @@ export function CharacterSection() {
   );
 
   const isCharsVisible = useCharSectionState((state) => state.isCharsVisible);
-  const { showChars, showDetails, hideChars, hideDetails, initCharSection } =
-    useCharSectionState();
 
   useEffect(() => {
     if (sectionIndex === 2) {
-      initCharSection();
+      initChars();
       console.log("showing chars");
     }
   }, [sectionIndex]);
@@ -33,7 +43,11 @@ export function CharacterSection() {
         opacity: 1,
       };
     } else if (!isCharsVisible) {
-      return { transform: `translateY(${transformVal}%)`, opacity: 0 };
+      return {
+        transform: `translateY(${transformVal}%)`,
+        opacity: 0,
+        pointerEvents: "none",
+      };
     }
   };
 
@@ -41,7 +55,7 @@ export function CharacterSection() {
     e.preventDefault();
 
     const { id } = e.target;
-    console.log(id);
+    specifyMemberData({ id: id, memberData: memberData });
 
     hideChars();
     showDetails();
@@ -52,16 +66,15 @@ export function CharacterSection() {
     showChars();
   };
 
-  console.log("from handle showing chars", {
-    isCharsVisible: isCharsVisible,
-    hasScrolledInto: hasScrolledInto,
-    isDetailsVisible: isDetailsVisible,
-  });
+  // console.log("from handle showing chars", {
+  //   isCharsVisible: isCharsVisible,
+  //   hasScrolledInto: hasScrolledInto,
+  //   isDetailsVisible: isDetailsVisible,
+  // });
 
   return (
     <div
-      className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110 char-bg-shadow" // bg-nightcord-110 add this after debugging
-      // TODO add a meaningful blurred background "sekai" on character details
+      className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110" // add this after debugging
     >
       <img src="/bg_school_refusal.png" className="absolute opacity-0"></img>
       <button
@@ -72,11 +85,14 @@ export function CharacterSection() {
       >
         BACK TO TALENTS
       </button>
-      <CharacterDetails isDetailsVisible={isDetailsVisible} />
+      <CharacterDetails
+        isDetailsVisible={isDetailsVisible}
+        characterData={currentCharacter}
+      />
 
       <div className="grid gap-10 grid-cols-4 h-full justify-center items-center">
         <div
-          className={`w-[15vw] h-full transistion-all ease-in-out duration-[1.2s]`}
+          className={`w-[15vw] h-full transition-all ease-in-out duration-1000`}
           style={handleShowingChars(50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -88,12 +104,12 @@ export function CharacterSection() {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleClose}
-              className="w-full h-full z-10 transition-all duration-300 char-box-shadow"
+              className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transistion-all ease-in-out duration-[1.2s]`}
+          className={`w-[15vw] h-full transition-all ease-in-out duration-1000`}
           style={handleShowingChars(-50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -105,12 +121,12 @@ export function CharacterSection() {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleClose}
-              className="w-full h-full z-10 transition-all duration-300 char-box-shadow"
+              className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transistion-all ease-in-out duration-[1.2s]`}
+          className={`w-[15vw] h-full transition-all ease-in-out duration-1000`}
           style={handleShowingChars(50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -122,27 +138,25 @@ export function CharacterSection() {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleClose}
-              className="w-full h-full z-10 transition-all duration-300 char-box-shadow"
+              className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transistion-all ease-in-out duration-[1.2s]`}
+          className={`w-[15vw] h-full transition-all ease-in-out duration-1000`}
           style={handleShowingChars(-50)}
         >
-          <div className="CHARBAR relative z-[-1] flex justify-center items-center w-full h-full overflow-hidden">
+          <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
             <div
               id="mizuki"
+              style={{
+                backgroundImage: "url('/mizuki.png')",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
               onClick={handleClose}
-              className="absolute w-[1500px] h-full transition-all duration-300 left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] overflow-hidden"
-            >
-              <img
-                src="/mizuki.png"
-                className="absolute w-auto h-full left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] transistion-all duration-500 hover:scale-110"
-              ></img>
-
-              {/*TODO add shadow on the image while keeping the hover effect*/}
-            </div>
+              className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
+            ></div>
           </div>
         </div>
       </div>
@@ -150,29 +164,69 @@ export function CharacterSection() {
   );
 }
 
-{
-  /* <div className="relative w-[1500px] h-[1700px] left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
-            
-            <img
-              src="/mizuki.png"
-              className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] hover:scale-150"
-            />
-          </div> */
-}
+function CharacterDetails({ isDetailsVisible, characterData }) {
+  const videoRef = useRef();
 
-function CharacterDetails({ isDetailsVisible }) {
+  const introVideoDurationBarWidth = useCharSectionState(
+    (state) => state.introVideoDurationBarWidth
+  );
+  const { setDurationBarWidth } = useCharSectionState();
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    const video = videoRef.current;
+    setDurationBarWidth(video);
+  };
+
+  useEffect(() => {
+    // const video = videoRef.current;
+    // setDurationBarWidth(video);
+  }, [introVideoDurationBarWidth]);
+
   return (
     <div
-      className={`DETAILS-CONTAINER absolute flex w-[70vw] justify-center items-center ${
+      className={`DETAILS-CONTAINER absolute flex w-[70vw] h-full justify-center items-center ${
         isDetailsVisible ? "visible" : "invisible"
       }`}
     >
-      <div className="w-[50%] flex flex-col">
-        <img src="/vercel.svg" className="object-contain" />
+      <div className="w-[50%] h-full">
+        <div className="relative flex justify-center items-center w-full h-full overflow-hidden">
+          <div
+            style={{
+              backgroundImage: `url('${characterData.image}')`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+            className="w-full h-full transition-all duration-500 detail-char-box-shadow hover:blur-none hover:scale-105"
+          ></div>
+        </div>
       </div>
       <div className="w-[50%]">
-        <div>FIRST NAME</div>
-        <div>LAST NAME</div>
+        <div className="w-full h-full">
+          <div className="relative w-[80%] h-full">
+            <div
+              className={`absolute bottom-0 h-1 bg-nightcord-30`}
+              style={{ width: `${introVideoDurationBarWidth}%` }}
+            />
+            <video
+              ref={videoRef}
+              src="/mizuki_intro.mp4"
+              type="video/mp4"
+              onClick={togglePlay}
+              onTimeUpdate={handleTimeUpdate}
+            ></video>
+          </div>
+        </div>
+        <div>{characterData.firstName}</div>
+        <div>{characterData.lastName}</div>
       </div>
     </div>
   );
