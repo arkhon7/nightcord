@@ -58,3 +58,55 @@ box-shadow: 1px -154px 171px 57px rgba(20,21,22,1) inset;
  -webkit-box-shadow: 1px -154px 142px 93px rgba(20,21,22,1) inset;
  -moz-box-shadow: 1px -154px 142px 93px rgba(20,21,22,1) inset;
  }
+
+
+/* RANGE SLIDER STYLES */
+
+.rangeslider-horizontal {
+  position: absolute;
+  display: flex;
+
+  background-color: rgba(20, 21, 22, 0.5);
+  height: 5px;
+  width: 100%;
+  bottom:0;
+  box-shadow: none;
+  border-radius: 0;
+
+  margin: 0;
+  z-index: 1;
+}
+
+.rangeslider-horizontal:hover {
+
+  height: 30px;
+}
+
+.rangeslider-horizontal .rangeslider__fill {
+
+  background-color: #394798ff;
+  height: 5px;
+  align-self: center;
+  position: absolute;
+
+  top: 0;
+
+}
+
+.rangeslider-horizontal .rangeslider__handle {
+
+  top: 5%;
+  width: 10px;
+  height: 10px;
+  border: none;
+  background-color: #394798ff;
+}
+
+
+.rangeslider-horizontal .rangeslider__handle-tooltip {
+  display: none;
+}
+
+.rangeslider-horizontal .rangeslider__handle::after {
+  display: none;
+}

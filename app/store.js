@@ -10,7 +10,7 @@ export const useCharSectionState = create((set) => ({
   isDetailsVisible: false,
   isCharsVisible: false,
   currentCharacter: {},
-  introVideoDurationBarWidth: 0,
+  durationValue: 0,
   initChars: () =>
     set((state) => {
       if (!state.hasScrolledInto) {
@@ -33,9 +33,11 @@ export const useCharSectionState = create((set) => ({
         return { currentCharacter: payload.memberData.mafuyu };
       }
     }),
-  setDurationBarWidth: (payload) =>
-    set({
-      introVideoDurationBarWidth:
-        (payload.currentTime / payload.duration) * 100,
-    }),
+
+  setDurationValue: (payload) => set({ durationValue: payload }),
+  // setDurationBarWidth: (payload) =>
+  //   set({
+  //     introVideoDurationBarWidth:
+  //       (payload.currentTime / payload.duration) * 100,
+  //   }),
 }));

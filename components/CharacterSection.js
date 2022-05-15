@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGlobalState, useCharSectionState } from "../app/store";
+import YouTube from "react-youtube";
+import Slider from "react-rangeslider";
 
 export function CharacterSection({ memberData }) {
   const {
@@ -167,10 +169,8 @@ export function CharacterSection({ memberData }) {
 function CharacterDetails({ isDetailsVisible, characterData }) {
   const videoRef = useRef();
 
-  const introVideoDurationBarWidth = useCharSectionState(
-    (state) => state.introVideoDurationBarWidth
-  );
-  const { setDurationBarWidth } = useCharSectionState();
+  const durationValue = useCharSectionState((state) => state.durationValue);
+  const { setDurationValue } = useCharSectionState();
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -183,13 +183,18 @@ function CharacterDetails({ isDetailsVisible, characterData }) {
 
   const handleTimeUpdate = () => {
     const video = videoRef.current;
-    setDurationBarWidth(video);
+    const newDurationVal = (video.currentTime / video.duration) * 100;
+    setDurationValue(newDurationVal);
+    console.log(newDurationVal);
   };
 
-  useEffect(() => {
-    // const video = videoRef.current;
-    // setDurationBarWidth(video);
-  }, [introVideoDurationBarWidth]);
+  // ADD THIS TO CHAR STATE
+
+  const handleOnChange = (value) => {
+    const video = videoRef.current;
+    video.currentTime = (value / 100) * video.duration;
+    setDurationValue(value);
+  };
 
   return (
     <div
@@ -212,17 +217,35 @@ function CharacterDetails({ isDetailsVisible, characterData }) {
       <div className="w-[50%]">
         <div className="w-full h-full">
           <div className="relative w-[80%] h-full">
-            <div
-              className={`absolute bottom-0 h-1 bg-nightcord-30`}
-              style={{ width: `${introVideoDurationBarWidth}%` }}
+            <Slider
+              min={0}
+              max={100}
+              step={0.001}
+              value={durationValue}
+              onChange={handleOnChange}
             />
-            <video
+
+            {/* <video
               ref={videoRef}
               src="/mizuki_intro.mp4"
               type="video/mp4"
               onClick={togglePlay}
               onTimeUpdate={handleTimeUpdate}
-            ></video>
+            ></video> */}
+
+            {/* TODO: TEST THIS */}
+            <YouTube
+              videoId="xYonbFE-324"
+              opts={{
+                height: "390",
+                width: "640",
+                playerVars: {
+                  // https://developers.google.com/youtube/player_parameters
+                  enablejsapi: 1,
+                  origin: "http://localhost:3000",
+                },
+              }}
+            />
           </div>
         </div>
         <div>{characterData.firstName}</div>
