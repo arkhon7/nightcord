@@ -10,7 +10,9 @@ export const useCharSectionState = create((set) => ({
   isDetailsVisible: false,
   isCharsVisible: false,
   currentCharacter: {},
+  videoState: "pause",
   durationValue: 0,
+  preDurationValue: 0,
   initChars: () =>
     set((state) => {
       if (!state.hasScrolledInto) {
@@ -35,9 +37,5 @@ export const useCharSectionState = create((set) => ({
     }),
 
   setDurationValue: (payload) => set({ durationValue: payload }),
-  // setDurationBarWidth: (payload) =>
-  //   set({
-  //     introVideoDurationBarWidth:
-  //       (payload.currentTime / payload.duration) * 100,
-  //   }),
+  setPreDurationValue: (payload) => set({ preDurationValue: payload }),
 }));

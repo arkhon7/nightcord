@@ -21,6 +21,7 @@ export async function getStaticProps() {
       height: "163 cm",
       school: "Kamiyama High School 1-A",
       image: "/mizuki.png",
+      video: "/mizuki_intro.mp4",
     },
     ena: {
       firstName: "Ena",
@@ -33,10 +34,11 @@ export async function getStaticProps() {
       height: "158 cm",
       school: "Kamiyama High School 2-D",
       image: "/ena.png",
+      video: "/ena_intro.mp4",
     },
     mafuyu: {
-      firstName: "Mizuki",
-      lastName: "Akiyama",
+      firstName: "Mafuyu",
+      lastName: "Asahina",
       voiceActor: "Satou Hinata",
       introVideoLink: "https://www.youtube.com/watch?v=u7vu0ubr_nM",
       position: "MV Creator",
@@ -45,10 +47,11 @@ export async function getStaticProps() {
       height: "163 cm",
       school: "Kamiyama High School 1-A",
       image: "/mafuyu.png",
+      video: "/mafuyu_intro.mp4",
       // TODO
     },
     kanade: {
-      firstName: "Mizuki",
+      firstName: "Kanade",
       lastName: "Akiyama",
       voiceActor: "Satou Hinata",
       introVideoLink: "https://www.youtube.com/watch?v=u7vu0ubr_nM",
@@ -58,6 +61,7 @@ export async function getStaticProps() {
       height: "163 cm",
       school: "Kamiyama High School 1-A",
       image: "/kanade.png",
+      video: "/kanade_intro.mp4",
       // TODO
     },
   };

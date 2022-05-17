@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, forwardRef } from "react";
 import { useGlobalState, useCharSectionState } from "../app/store";
-import YouTube from "react-youtube";
 import Slider from "react-rangeslider";
 
 export function CharacterSection({ memberData }) {
@@ -14,10 +13,7 @@ export function CharacterSection({ memberData }) {
     currentCharacter,
   } = useCharSectionState();
 
-  // initSection(memberData);
-
   const sectionIndex = useGlobalState((state) => state.sectionIndex);
-
   const hasScrolledInto = useCharSectionState((state) => state.hasScrolledInto);
   const isDetailsVisible = useCharSectionState(
     (state) => state.isDetailsVisible
@@ -28,7 +24,6 @@ export function CharacterSection({ memberData }) {
   useEffect(() => {
     if (sectionIndex === 2) {
       initChars();
-      console.log("showing chars");
     }
   }, [sectionIndex]);
 
@@ -38,11 +33,15 @@ export function CharacterSection({ memberData }) {
         transform: "translateY(0)",
         opacity: 1,
         transitionDelay: "1000ms",
+        animationName: "charboxanim",
+        animationDuration: "2s",
       };
     } else if (isCharsVisible && hasScrolledInto) {
       return {
         transform: "translateY(0)",
         opacity: 1,
+        animationName: "charboxanim",
+        animationDuration: "1s",
       };
     } else if (!isCharsVisible) {
       return {
@@ -53,17 +52,14 @@ export function CharacterSection({ memberData }) {
     }
   };
 
-  const handleClose = (e) => {
-    e.preventDefault();
-
+  const handleCloseCharBox = (e) => {
     const { id } = e.target;
     specifyMemberData({ id: id, memberData: memberData });
-
     hideChars();
     showDetails();
   };
 
-  const handleOpen = () => {
+  const handleOpenCharBox = () => {
     hideDetails();
     showChars();
   };
@@ -80,10 +76,10 @@ export function CharacterSection({ memberData }) {
     >
       <img src="/bg_school_refusal.png" className="absolute opacity-0"></img>
       <button
-        className={`absolute left-2 top-2 w-20 h-20 bg-nightcord-30 ${
-          isDetailsVisible ? "visible" : "invisible"
+        className={`transition-all duration-1000 absolute left-2 top-2 w-20 h-20 bg-nightcord-30 ${
+          isDetailsVisible ? "opacity-[1]" : "opacity-[0] pointer-events-none"
         }`}
-        onClick={handleOpen}
+        onClick={handleOpenCharBox}
       >
         BACK TO TALENTS
       </button>
@@ -94,7 +90,7 @@ export function CharacterSection({ memberData }) {
 
       <div className="grid gap-10 grid-cols-4 h-full justify-center items-center">
         <div
-          className={`w-[15vw] h-full transition-all ease-in-out duration-1000`}
+          className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
           style={handleShowingChars(50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -105,13 +101,13 @@ export function CharacterSection({ memberData }) {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
-              onClick={handleClose}
+              onClick={handleCloseCharBox}
               className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transition-all ease-in-out duration-1000`}
+          className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
           style={handleShowingChars(-50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -122,13 +118,13 @@ export function CharacterSection({ memberData }) {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
-              onClick={handleClose}
+              onClick={handleCloseCharBox}
               className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transition-all ease-in-out duration-1000`}
+          className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
           style={handleShowingChars(50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -139,13 +135,13 @@ export function CharacterSection({ memberData }) {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
-              onClick={handleClose}
+              onClick={handleCloseCharBox}
               className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transition-all ease-in-out duration-1000`}
+          className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
           style={handleShowingChars(-50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -156,7 +152,7 @@ export function CharacterSection({ memberData }) {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
-              onClick={handleClose}
+              onClick={handleCloseCharBox}
               className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
             ></div>
           </div>
@@ -169,8 +165,13 @@ export function CharacterSection({ memberData }) {
 function CharacterDetails({ isDetailsVisible, characterData }) {
   const videoRef = useRef();
 
-  const durationValue = useCharSectionState((state) => state.durationValue);
-  const { setDurationValue } = useCharSectionState();
+  const { durationValue, preDurationValue } = useCharSectionState(
+    (state) => state
+  );
+
+  const { setDurationValue, setPreDurationValue } = useCharSectionState();
+
+  // setDurationValue(0);
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -185,36 +186,66 @@ function CharacterDetails({ isDetailsVisible, characterData }) {
     const video = videoRef.current;
     const newDurationVal = (video.currentTime / video.duration) * 100;
     setDurationValue(newDurationVal);
-    console.log(newDurationVal);
   };
 
   // ADD THIS TO CHAR STATE
 
+  useEffect(() => {
+    const video = videoRef?.current;
+    video.currentTime = 0;
+    // setTimeout(() => {
+    //   video.currentTime = 0;
+    // }, 1000);
+    video.pause();
+  }, [isDetailsVisible]);
+
   const handleOnChange = (value) => {
     const video = videoRef.current;
-    video.currentTime = (value / 100) * video.duration;
+    setPreDurationValue(value);
     setDurationValue(value);
+    video.pause();
+  };
+
+  const handleOnComplete = () => {
+    const video = videoRef.current;
+    video.currentTime = (preDurationValue / 100) * video.duration;
+    setDurationValue(preDurationValue);
+    video.play();
   };
 
   return (
     <div
-      className={`DETAILS-CONTAINER absolute flex w-[70vw] h-full justify-center items-center ${
-        isDetailsVisible ? "visible" : "invisible"
+      className={`DETAILS-CONTAINER transition-all duration-500 absolute flex w-[70vw] h-full justify-center items-center ${
+        isDetailsVisible ? "" : "bg-nightcord-110"
       }`}
     >
-      <div className="w-[50%] h-full">
-        <div className="relative flex justify-center items-center w-full h-full overflow-hidden">
+      <div
+        className={`transition-all duration-1000 delay-500  w-[50%] h-full `}
+      >
+        <div
+          className={`relative flex justify-center items-center w-full h-full overflow-hidden ${
+            isDetailsVisible ? "opacity-[1]" : "opacity-[0]"
+          }`}
+        >
           <div
             style={{
               backgroundImage: `url('${characterData.image}')`,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
-            className="w-full h-full transition-all duration-500 detail-char-box-shadow hover:blur-none hover:scale-105"
+            className={`w-full h-full opacity-50 detail-char-box-shadow ${
+              isDetailsVisible ? "opacity-[1]" : "opacity-[0]"
+            }`}
           ></div>
         </div>
       </div>
-      <div className="w-[50%]">
+      <div
+        className={`w-[50%] ${
+          isDetailsVisible
+            ? "opacity-[1]"
+            : "pointer-events-none delay-[0ms] opacity-[0]"
+        }`}
+      >
         <div className="w-full h-full">
           <div className="relative w-[80%] h-full">
             <Slider
@@ -223,29 +254,16 @@ function CharacterDetails({ isDetailsVisible, characterData }) {
               step={0.001}
               value={durationValue}
               onChange={handleOnChange}
+              onChangeComplete={handleOnComplete}
             />
 
-            {/* <video
+            <video
               ref={videoRef}
-              src="/mizuki_intro.mp4"
+              src={characterData.video}
               type="video/mp4"
               onClick={togglePlay}
               onTimeUpdate={handleTimeUpdate}
-            ></video> */}
-
-            {/* TODO: TEST THIS */}
-            <YouTube
-              videoId="xYonbFE-324"
-              opts={{
-                height: "390",
-                width: "640",
-                playerVars: {
-                  // https://developers.google.com/youtube/player_parameters
-                  enablejsapi: 1,
-                  origin: "http://localhost:3000",
-                },
-              }}
-            />
+            ></video>
           </div>
         </div>
         <div>{characterData.firstName}</div>
