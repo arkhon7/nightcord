@@ -40,8 +40,9 @@ export function CharacterSection({ memberData }) {
       return {
         transform: "translateY(0)",
         opacity: 1,
+        transitionDelay: "1000ms",
         animationName: "charboxanim",
-        animationDuration: "1s",
+        animationDuration: "2s",
       };
     } else if (!isCharsVisible) {
       return {
@@ -74,21 +75,7 @@ export function CharacterSection({ memberData }) {
     <div
       className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110" // add this after debugging
     >
-      <img src="/bg_school_refusal.png" className="absolute opacity-0"></img>
-      <button
-        className={`transition-all duration-1000 absolute left-2 top-2 w-20 h-20 bg-nightcord-30 ${
-          isDetailsVisible ? "opacity-[1]" : "opacity-[0] pointer-events-none"
-        }`}
-        onClick={handleOpenCharBox}
-      >
-        BACK TO TALENTS
-      </button>
-      <CharacterDetails
-        isDetailsVisible={isDetailsVisible}
-        characterData={currentCharacter}
-      />
-
-      <div className="grid gap-10 grid-cols-4 h-full justify-center items-center">
+      <div className="absolute z-20 grid gap-10 grid-cols-4 w-[70vw] h-full justify-center items-center">
         <div
           className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
           style={handleShowingChars(50)}
@@ -158,11 +145,21 @@ export function CharacterSection({ memberData }) {
           </div>
         </div>
       </div>
+
+      <CharacterDetails
+        isDetailsVisible={isDetailsVisible}
+        characterData={currentCharacter}
+        handleOpenCharBox={handleOpenCharBox}
+      />
     </div>
   );
 }
 
-function CharacterDetails({ isDetailsVisible, characterData }) {
+function CharacterDetails({
+  isDetailsVisible,
+  characterData,
+  handleOpenCharBox,
+}) {
   const videoRef = useRef();
 
   const { durationValue, preDurationValue } = useCharSectionState(
@@ -190,14 +187,14 @@ function CharacterDetails({ isDetailsVisible, characterData }) {
 
   // ADD THIS TO CHAR STATE
 
-  useEffect(() => {
-    const video = videoRef?.current;
-    video.currentTime = 0;
-    // setTimeout(() => {
-    //   video.currentTime = 0;
-    // }, 1000);
-    video.pause();
-  }, [isDetailsVisible]);
+  // useEffect(() => {
+  //   const video = videoRef?.current;
+  //   video.currentTime = 0;
+  //   // setTimeout(() => {
+  //   //   video.currentTime = 0;
+  //   // }, 1000);
+  //   video.pause();
+  // }, [isDetailsVisible]);
 
   const handleOnChange = (value) => {
     const video = videoRef.current;
@@ -215,60 +212,39 @@ function CharacterDetails({ isDetailsVisible, characterData }) {
 
   return (
     <div
-      className={`DETAILS-CONTAINER transition-all duration-500 absolute flex w-[70vw] h-full justify-center items-center ${
-        isDetailsVisible ? "" : "bg-nightcord-110"
-      }`}
+      className={`absolute z-10 flex w-full h-full justify-center items-center detail-char-box-shadow`}
     >
       <div
-        className={`transition-all duration-1000 delay-500  w-[50%] h-full `}
-      >
-        <div
-          className={`relative flex justify-center items-center w-full h-full overflow-hidden ${
-            isDetailsVisible ? "opacity-[1]" : "opacity-[0]"
-          }`}
-        >
-          <div
-            style={{
-              backgroundImage: `url('${characterData.image}')`,
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-            className={`w-full h-full opacity-50 detail-char-box-shadow ${
-              isDetailsVisible ? "opacity-[1]" : "opacity-[0]"
-            }`}
-          ></div>
-        </div>
-      </div>
-      <div
-        className={`w-[50%] ${
+        className={`transition-all duration-1000 absolute z-30 bg-nightcord-110  w-full h-full ${
           isDetailsVisible
-            ? "opacity-[1]"
-            : "pointer-events-none delay-[0ms] opacity-[0]"
+            ? "delay-1000 opacity-[0] pointer-events-none"
+            : "opacity-[1]"
         }`}
-      >
-        <div className="w-full h-full">
-          <div className="relative w-[80%] h-full">
-            <Slider
-              min={0}
-              max={100}
-              step={0.001}
-              value={durationValue}
-              onChange={handleOnChange}
-              onChangeComplete={handleOnComplete}
-            />
+      ></div>
 
-            <video
-              ref={videoRef}
-              src={characterData.video}
-              type="video/mp4"
-              onClick={togglePlay}
-              onTimeUpdate={handleTimeUpdate}
-            ></video>
-          </div>
+      <button
+        className={`transition-all duration-1000 absolute z-10 left-2 top-2 w-20 h-20 bg-nightcord-30 ${
+          isDetailsVisible ? "opacity-[1]" : "opacity-[0] pointer-events-none"
+        }`}
+        onClick={handleOpenCharBox}
+      >
+        BACK TO TALENTS
+      </button>
+
+      {/* IMPROVE THIS SHITTTT */}
+      <div className={`flex transition-all duration-1000 w-full h-full`}>
+        <div className={`flex justify-center items-center w-[50%] h-full`}>
+          IMAGE HERE
         </div>
-        <div>{characterData.firstName}</div>
-        <div>{characterData.lastName}</div>
+        <div className={`flex justify-center items-center w-[50%] h-full`}>
+          DETAILS HERE
+        </div>
       </div>
+      <img
+        src="/bg_school_refusal.png"
+        className="absolute z-0 blur-sm opacity-10"
+      ></img>
+      {/* IMPROVE THIS SHITTTT */}
     </div>
   );
 }

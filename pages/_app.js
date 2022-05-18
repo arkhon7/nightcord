@@ -1,4 +1,3 @@
-// import "react-rangeslider/lib/index.css";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
