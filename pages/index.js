@@ -14,39 +14,42 @@ export async function getStaticProps() {
       firstName: "Mizuki",
       lastName: "Akiyama",
       voiceActor: "Satou Hinata",
-      introVideoLink: "https://www.youtube.com/watch?v=u7vu0ubr_nM",
+      introVideoLink: "https://www.youtube.com/embed/u7vu0ubr_nM",
       position: "MV Creator",
       gender: "Unknown",
       birthday: "August 27",
       height: "163 cm",
       school: "Kamiyama High School 1-A",
       image: "/mizuki.png",
+      imageFull: "/mizuki-full.png",
       video: "/mizuki_intro.mp4",
     },
     ena: {
       firstName: "Ena",
       lastName: "Shinonome",
       voiceActor: "Suzuki Minori",
-      introVideoLink: "https://www.youtube.com/watch?v=u7vu0ubr_nM",
+      introVideoLink: "https://www.youtube.com/embed/u7vu0ubr_nM",
       position: "Illustrator",
       gender: "Female",
       birthday: "April 30",
       height: "158 cm",
       school: "Kamiyama High School 2-D",
       image: "/ena.png",
+      imageFull: "/mizuki-full.png",
       video: "/ena_intro.mp4",
     },
     mafuyu: {
       firstName: "Mafuyu",
       lastName: "Asahina",
       voiceActor: "Satou Hinata",
-      introVideoLink: "https://www.youtube.com/watch?v=u7vu0ubr_nM",
+      introVideoLink: "https://www.youtube.com/embed/u7vu0ubr_nM",
       position: "MV Creator",
       gender: "Unknown",
       birthday: "August 27",
       height: "163 cm",
       school: "Kamiyama High School 1-A",
       image: "/mafuyu.png",
+      imageFull: "/mizuki-full.png",
       video: "/mafuyu_intro.mp4",
       // TODO
     },
@@ -54,13 +57,14 @@ export async function getStaticProps() {
       firstName: "Kanade",
       lastName: "Akiyama",
       voiceActor: "Satou Hinata",
-      introVideoLink: "https://www.youtube.com/watch?v=u7vu0ubr_nM",
+      introVideoLink: "https://www.youtube.com/embed/u7vu0ubr_nM",
       position: "MV Creator",
       gender: "Unknown",
       birthday: "August 27",
       height: "163 cm",
       school: "Kamiyama High School 1-A",
       image: "/kanade.png",
+      imageFull: "/mizuki-full.png",
       video: "/kanade_intro.mp4",
       // TODO
     },
@@ -88,16 +92,27 @@ export default function Home({ memberData }) {
           className="bg-nightcord-30 w-full h-screen"
         >
           <div className="flex h-full w-full justify-center items-center">
-            FEED
+            INTRODUCTION
           </div>
+        </Slide>
+        <Slide
+          transformValueY={100}
+          className="bg-nightcord-30 w-full h-screen"
+        >
+          <CharacterSection memberData={memberData} />
         </Slide>
         <Slide
           transformValueY={100}
           className="bg-nightcord-40 w-full h-screen"
         >
-          <CharacterSection memberData={memberData} />
+          <div className="flex h-full w-full justify-center items-center bg-nightcord-110 text-nightcord-70">
+            FEED
+          </div>
         </Slide>
-        <Slide transformValueY={30} className="bg-nightcord-40 w-full h-screen">
+        <Slide
+          transformValueY={30}
+          className="bg-nightcord-110 w-full h-screen shadow-xl shadow-nightcord-110"
+        >
           <div className="flex h-[30vh] w-full justify-center items-center">
             FOOTER
           </div>

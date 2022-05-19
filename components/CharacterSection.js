@@ -75,7 +75,11 @@ export function CharacterSection({ memberData }) {
     <div
       className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110" // add this after debugging
     >
-      <div className="absolute z-20 grid gap-10 grid-cols-4 w-[70vw] h-full justify-center items-center">
+      <div
+        className={`absolute z-20 grid gap-10 grid-cols-4 w-[70vw] h-full justify-center items-center ${
+          isCharsVisible ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
         <div
           className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
           style={handleShowingChars(50)}
@@ -232,18 +236,37 @@ function CharacterDetails({
       </button>
 
       {/* IMPROVE THIS SHITTTT */}
-      <div className={`flex transition-all duration-1000 w-full h-full`}>
+      <div className={`flex transition-all duration-1000 w-[70%] h-full`}>
         <div className={`flex justify-center items-center w-[50%] h-full`}>
-          IMAGE HERE
+          <div className="w-full h-full p-10">
+            <div
+              id="mizuki"
+              style={{
+                backgroundImage: "url('/mizuki-full.png')",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+              }}
+              className="w-full h-full p-6"
+            ></div>
+          </div>
         </div>
         <div className={`flex justify-center items-center w-[50%] h-full`}>
-          DETAILS HERE
+          <div className="w-full h-full p-10">
+            <div>{characterData.firstName}</div>
+            <div>{characterData.lastName}</div>
+            <div>{characterData.voiceActor}</div>
+            <div>VIDEO HERE</div>
+          </div>
         </div>
       </div>
-      <img
-        src="/bg_school_refusal.png"
-        className="absolute z-0 blur-sm opacity-10"
-      ></img>
+      <div className="absolute bg-gradient-to-b from-transparent to-nightcord-110 h-full w-full pointer-events-none">
+        <img
+          src="/bg_school_refusal.png"
+          className="absolute z-[-1] blur-sm opacity-50 object-none h-full w-full"
+        ></img>
+      </div>
+
       {/* IMPROVE THIS SHITTTT */}
     </div>
   );
