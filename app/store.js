@@ -13,6 +13,7 @@ export const useCharSectionState = create((set) => ({
   videoState: "pause",
   durationValue: 0,
   preDurationValue: 0,
+  videoModalVisible: false,
   initChars: () =>
     set((state) => {
       if (!state.hasScrolledInto) {
@@ -38,4 +39,8 @@ export const useCharSectionState = create((set) => ({
 
   setDurationValue: (payload) => set({ durationValue: payload }),
   setPreDurationValue: (payload) => set({ preDurationValue: payload }),
+  toggleVideoModal: () =>
+    set((state) => {
+      return { videoModalVisible: !state.videoModalVisible };
+    }),
 }));

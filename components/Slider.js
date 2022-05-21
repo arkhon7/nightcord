@@ -19,6 +19,7 @@ const throttle = (cb, delay = 500) => {
 export function SlideShow({ children, direction, width, height }) {
   const [currSlideIndex, setCurrSlideIndex] = useState(0);
   const [transformVal, setTransformVal] = useState(0);
+  const [lastY, setLastY] = useState(0);
 
   var breakpoints = [];
   const incrementedPoints = [];
@@ -46,6 +47,50 @@ export function SlideShow({ children, direction, width, height }) {
       setCurrSlideIndex(...args);
     }, 1000)
   );
+
+  const handleTouchStart = (e) => {
+    let currentY = e.touches[0].clientY;
+    setLastY(currentY);
+    console.log(lastY);
+  };
+
+  const handleTouchMove = (e) => {
+    let currentY = e.touches[0].clientY;
+    const index = incrementedPoints.length - 1;
+    // if (currentY > lastY) {
+    //   console.log("moved down");
+    // } else if (currentY < lastY) {
+    //   console.log("moved up");
+    // }
+    // console.log(lastY, currentY);
+    // lastY = currentY;
+    // console.log(currentY, lastY);
+
+    slide.current((state) => {
+      console.log("current:", currentY, "last:", lastY);
+      if (currentY > lastY) {
+        console.log("up");
+
+        const decrementedIndex = state - 1;
+
+        if (decrementedIndex < 0) {
+          return 0;
+        } else {
+          return decrementedIndex;
+        }
+      } else if (currentY < lastY) {
+        console.log("down");
+
+        const incrementedIndex = state + 1;
+
+        if (incrementedIndex > index) {
+          return index;
+        } else {
+          return incrementedIndex;
+        }
+      }
+    });
+  };
 
   const handleWheel = (e) => {
     const index = incrementedPoints.length - 1;
@@ -77,8 +122,9 @@ export function SlideShow({ children, direction, width, height }) {
   const { setSectionIndex } = useGlobalState();
 
   useEffect(() => {
+    console.log(incrementedPoints);
     const newTransformValue = incrementedPoints[currSlideIndex];
-    // console.log("slide index:", currSlideIndex);
+    console.log("slide index:", currSlideIndex);
 
     if (newTransformValue !== undefined) {
       setTransformVal(newTransformValue);
@@ -89,6 +135,8 @@ export function SlideShow({ children, direction, width, height }) {
   return (
     <div
       onWheel={handleWheel}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       style={{
         height: height,
         width: width,

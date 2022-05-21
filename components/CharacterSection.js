@@ -1,6 +1,7 @@
 import { useEffect, useRef, forwardRef } from "react";
 import { useGlobalState, useCharSectionState } from "../app/store";
 import Slider from "react-rangeslider";
+import { AiFillPlayCircle, AiOutlineClose } from "react-icons/ai";
 
 export function CharacterSection({ memberData }) {
   const {
@@ -164,60 +165,45 @@ function CharacterDetails({
   characterData,
   handleOpenCharBox,
 }) {
-  const videoRef = useRef();
-
-  const { durationValue, preDurationValue } = useCharSectionState(
-    (state) => state
+  const { toggleVideoModal } = useCharSectionState();
+  const videoModalVisible = useCharSectionState(
+    (state) => state.videoModalVisible
   );
 
-  const { setDurationValue, setPreDurationValue } = useCharSectionState();
-
-  // setDurationValue(0);
-
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (video.paused) {
-      video.play();
-    } else {
-      video.pause();
-    }
-  };
-
-  const handleTimeUpdate = () => {
-    const video = videoRef.current;
-    const newDurationVal = (video.currentTime / video.duration) * 100;
-    setDurationValue(newDurationVal);
-  };
-
-  // ADD THIS TO CHAR STATE
-
-  // useEffect(() => {
-  //   const video = videoRef?.current;
-  //   video.currentTime = 0;
-  //   // setTimeout(() => {
-  //   //   video.currentTime = 0;
-  //   // }, 1000);
-  //   video.pause();
-  // }, [isDetailsVisible]);
-
-  const handleOnChange = (value) => {
-    const video = videoRef.current;
-    setPreDurationValue(value);
-    setDurationValue(value);
-    video.pause();
-  };
-
-  const handleOnComplete = () => {
-    const video = videoRef.current;
-    video.currentTime = (preDurationValue / 100) * video.duration;
-    setDurationValue(preDurationValue);
-    video.play();
+  const handleCloseModal = () => {
+    console.log(videoModalVisible);
+    toggleVideoModal();
   };
 
   return (
     <div
       className={`absolute z-10 flex w-full h-full justify-center items-center detail-char-box-shadow`}
     >
+      {(() => {
+        if (videoModalVisible) {
+          return (
+            <div className="absolute z-20 w-full h-full bg-nightcord-110 bg-opacity-[0.8]">
+              <div
+                className="absolute z-20 translate-x-[-50%] translate-y-[-50%] top-[22%] left-[71%]"
+                onClick={handleCloseModal}
+              >
+                <AiOutlineClose className="fixed z-20 w-[40px] h-[40px] translate-x-[-50%] translate-y-[-50%] top-[50%] left-[50%]" />
+              </div>
+
+              <div className="absolute translate-x-[-50%] translate-y-[-50%] top-[50%] left-[50%] max-w-[768px] max-h-[432px] w-full h-full">
+                <iframe
+                  // width="1280"
+                  // height="720"
+                  src="https://www.youtube.com/embed/u7vu0ubr_nM"
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  className="w-full h-full z-10"
+                ></iframe>
+              </div>
+            </div>
+          );
+        }
+      })()}
       <div
         className={`transition-all duration-1000 absolute z-30 bg-nightcord-110  w-full h-full ${
           isDetailsVisible
@@ -235,10 +221,9 @@ function CharacterDetails({
         BACK TO TALENTS
       </button>
 
-      {/* IMPROVE THIS SHITTTT */}
       <div className={`flex transition-all duration-1000 w-[70%] h-full`}>
         <div className={`flex justify-center items-center w-[50%] h-full`}>
-          <div className="w-full h-full p-10">
+          <div className="w-full h-full py-10 px-2">
             <div
               id="mizuki"
               style={{
@@ -252,11 +237,11 @@ function CharacterDetails({
           </div>
         </div>
         <div className={`flex justify-center items-center w-[50%] h-full`}>
-          <div className="w-full h-full p-10">
+          <div className="w-full h-full py-10 px-2">
             <div>{characterData.firstName}</div>
             <div>{characterData.lastName}</div>
             <div>{characterData.voiceActor}</div>
-            <div>VIDEO HERE</div>
+            <VideoProxy src={characterData.introVideoLink} />
           </div>
         </div>
       </div>
@@ -266,8 +251,36 @@ function CharacterDetails({
           className="absolute z-[-1] blur-sm opacity-50 object-none h-full w-full"
         ></img>
       </div>
+    </div>
+  );
+}
 
-      {/* IMPROVE THIS SHITTTT */}
+function VideoProxy() {
+  const { toggleVideoModal } = useCharSectionState();
+
+  const handleButtonClick = () => {
+    toggleVideoModal();
+  };
+
+  return (
+    <div className="relative w-[500px] h-[300px] group">
+      <div className="absolute z-0 w-full h-full overflow-hidden border-4 border-nightcord-40 rounded-lg">
+        <div
+          style={{
+            backgroundImage: "url('/mizuki-cover.png')",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+          className="transition-all duration-500 w-full h-full group-hover:scale-105"
+        ></div>
+      </div>
+      <div className="absolute flex justify-center items-center z-10 transition-all duration-500 w-full h-full group-hover:opacity-[0.8]">
+        <AiFillPlayCircle
+          className="w-20 h-20 text-nightcord-40"
+          onClick={handleButtonClick}
+        />
+      </div>
     </div>
   );
 }
