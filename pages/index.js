@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
 import { VscListFlat } from "react-icons/vsc";
@@ -6,6 +6,7 @@ import { VscListFlat } from "react-icons/vsc";
 import { SlideShow, Slide } from "../components/Slider";
 import { CharacterSection } from "../components/CharacterSection";
 import { IntroVideo } from "../components/IntroVideo";
+import { Preloader } from "../components/Preloader";
 import { Navbar } from "../components/NavBar";
 
 export async function getStaticProps() {
@@ -79,7 +80,8 @@ export async function getStaticProps() {
 
 export default function Home({ memberData }) {
   return (
-    <div className="w-full h-full">
+    <div className="relative w-full h-full">
+      <Preloader />
       <Navbar />
       <SlideShow width={"100vw"} height={"100vh"} direction={"y"}>
         <Slide transformValueY={0} className="bg-nightcord-20 w-full h-screen">
@@ -91,8 +93,12 @@ export default function Home({ memberData }) {
           transformValueY={100}
           className="bg-nightcord-30 w-full h-screen"
         >
-          <div className="flex h-full w-full justify-center items-center">
-            INTRODUCTION
+          <div className="flex h-full w-full justify-center items-center bg-nightcord-110">
+            <div className="font-nightcord max-w-[400px] max-h-[200px] text-center text-nightcord-30 bg-nightcord-70 text-xl overflow-hidden typewriter">
+              "An underground music circle that operates at 1:00 AM (25:00), and
+              whose identities are shrouded in mystery."
+              {/* <div className="relative inline-flex w-[2px] h-5 left-0 bg-nightcord-70"></div> */}
+            </div>
           </div>
         </Slide>
         <Slide

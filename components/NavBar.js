@@ -2,11 +2,10 @@ import { useGlobalState } from "../app/store";
 import { VscListFlat } from "react-icons/vsc";
 
 export function Navbar() {
-  const sectionIndex = useGlobalState((state) => state.sectionIndex);
-  const isShowing = useGlobalState((state) => state.isShowingChars);
+  const { sectionIndex, isShowing } = useGlobalState((state) => state);
 
   const handleOpacity = (index) => {
-    return index > 0 ? "" : "bg-nightcord-90 shadow-sm";
+    return index > 0 ? "bg-nightcord-90 shadow-sm" : "";
   };
 
   return (

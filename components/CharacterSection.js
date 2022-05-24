@@ -1,6 +1,5 @@
-import { useEffect, useRef, forwardRef } from "react";
+import { useEffect } from "react";
 import { useGlobalState, useCharSectionState } from "../app/store";
-import Slider from "react-rangeslider";
 import { AiFillPlayCircle, AiOutlineClose } from "react-icons/ai";
 
 export function CharacterSection({ memberData }) {
@@ -14,13 +13,9 @@ export function CharacterSection({ memberData }) {
     currentCharacter,
   } = useCharSectionState();
 
-  const sectionIndex = useGlobalState((state) => state.sectionIndex);
-  const hasScrolledInto = useCharSectionState((state) => state.hasScrolledInto);
-  const isDetailsVisible = useCharSectionState(
-    (state) => state.isDetailsVisible
-  );
-
-  const isCharsVisible = useCharSectionState((state) => state.isCharsVisible);
+  const { sectionIndex } = useGlobalState((state) => state);
+  const { hasScrolledInto, isDetailsVisible, isCharsVisible } =
+    useCharSectionState((state) => state);
 
   useEffect(() => {
     if (sectionIndex === 2) {
@@ -77,12 +72,12 @@ export function CharacterSection({ memberData }) {
       className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110" // add this after debugging
     >
       <div
-        className={`absolute z-20 grid gap-10 grid-cols-4 w-[70vw] h-full justify-center items-center ${
+        className={`absolute z-20 grid grid-cols-4 w-full h-full justify-center items-center px-[10px] gap-5 sm:w-full md:gap-6 md:w-full lg:gap-7 lg:w-[1024px] xl:gap-8 ${
           isCharsVisible ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
         <div
-          className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
+          className={`w-full h-full transition-all ease-in-out duration-1000`}
           style={handleShowingChars(50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -94,12 +89,12 @@ export function CharacterSection({ memberData }) {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
+              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:400px] sm:bg-[length:450px] md:bg-[length:500px] lg:bg-[length:550px]"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
+          className={`w-full h-full transition-all ease-in-out duration-1000`}
           style={handleShowingChars(-50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -111,12 +106,12 @@ export function CharacterSection({ memberData }) {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
+              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:400px] sm:bg-[length:450px] md:bg-[length:500px] lg:bg-[length:550px]"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
+          className={`w-full h-full transition-all ease-in-out duration-1000`}
           style={handleShowingChars(50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -128,12 +123,12 @@ export function CharacterSection({ memberData }) {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
+              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:400px] sm:bg-[length:450px] md:bg-[length:500px] lg:bg-[length:550px]"
             ></div>
           </div>
         </div>
         <div
-          className={`w-[15vw] h-full transition-all ease-in-out duration-1000 shadow-lg`}
+          className={`w-full h-full transition-all ease-in-out duration-1000`}
           style={handleShowingChars(-50)}
         >
           <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
@@ -145,7 +140,7 @@ export function CharacterSection({ memberData }) {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 blur-sm char-box-shadow hover:blur-none hover:scale-105"
+              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:400px] sm:bg-[length:450px] md:bg-[length:500px] lg:bg-[length:550px]"
             ></div>
           </div>
         </div>
@@ -248,7 +243,7 @@ function CharacterDetails({
       <div className="absolute bg-gradient-to-b from-transparent to-nightcord-110 h-full w-full pointer-events-none">
         <img
           src="/bg_school_refusal.png"
-          className="absolute z-[-1] blur-sm opacity-50 object-none h-full w-full"
+          className="absolute z-[-1] blur-md opacity-30 object-none h-full w-full"
         ></img>
       </div>
     </div>
