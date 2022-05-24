@@ -95,8 +95,9 @@ export default function Home({ memberData }) {
         >
           <div className="flex h-full w-full justify-center items-center bg-nightcord-110">
             <div className="font-nightcord max-w-[400px] max-h-[200px] text-center text-nightcord-30 bg-nightcord-70 text-xl overflow-hidden typewriter">
-              &ldquo;An underground music circle that operates at 1:00 AM
-              (25:00), and whose identities are shrouded in mystery.&rdquo;
+              &ldquo;An underground music circle that operates at 1&#58;00 AM
+              (25:00)&#44; and whose identities are shrouded in
+              mystery&#46;&rdquo;
               {/* <div className="relative inline-flex w-[2px] h-5 left-0 bg-nightcord-70"></div> */}
             </div>
           </div>
