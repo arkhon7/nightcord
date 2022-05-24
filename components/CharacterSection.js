@@ -72,7 +72,7 @@ export function CharacterSection({ memberData }) {
       className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110" // add this after debugging
     >
       <div
-        className={`absolute z-20 grid grid-cols-4 w-full h-full justify-center items-center px-[10px] gap-5 sm:w-full md:gap-6 md:w-full lg:gap-7 lg:w-[1024px] xl:gap-8 ${
+        className={`absolute z-20 grid grid-cols-4 w-full h-full justify-center items-center px-[10px] gap-3 sm:w-full md:gap-6 md:w-full lg:gap-7 lg:w-[1024px] xl:gap-8 ${
           isCharsVisible ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
@@ -89,7 +89,7 @@ export function CharacterSection({ memberData }) {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:400px] sm:bg-[length:450px] md:bg-[length:500px] lg:bg-[length:550px]"
+              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
             ></div>
           </div>
         </div>
@@ -106,7 +106,7 @@ export function CharacterSection({ memberData }) {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:400px] sm:bg-[length:450px] md:bg-[length:500px] lg:bg-[length:550px]"
+              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
             ></div>
           </div>
         </div>
@@ -123,7 +123,7 @@ export function CharacterSection({ memberData }) {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:400px] sm:bg-[length:450px] md:bg-[length:500px] lg:bg-[length:550px]"
+              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
             ></div>
           </div>
         </div>
@@ -140,7 +140,7 @@ export function CharacterSection({ memberData }) {
                 backgroundRepeat: "no-repeat",
               }}
               onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:400px] sm:bg-[length:450px] md:bg-[length:500px] lg:bg-[length:550px]"
+              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
             ></div>
           </div>
         </div>
