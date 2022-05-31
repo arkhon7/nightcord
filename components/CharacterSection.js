@@ -1,21 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, forwardRef, useRef } from "react";
 import { useGlobalState, useCharSectionState } from "../app/store";
 import { AiFillPlayCircle, AiOutlineClose } from "react-icons/ai";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function CharacterSection({ memberData }) {
   const {
-    showChars,
+    initChars,
+    currentCharacter,
+    specifyMemberData,
     showDetails,
     hideChars,
-    hideDetails,
-    initChars,
-    specifyMemberData,
-    currentCharacter,
+    cleanMemberData,
   } = useCharSectionState();
 
-  const { sectionIndex } = useGlobalState((state) => state);
   const { hasScrolledInto, isDetailsVisible, isCharsVisible } =
     useCharSectionState((state) => state);
+
+  const { sectionIndex } = useGlobalState((state) => state);
+  const { toggleSliderActive } = useGlobalState();
 
   useEffect(() => {
     if (sectionIndex === 2) {
@@ -23,42 +25,62 @@ export function CharacterSection({ memberData }) {
     }
   }, [sectionIndex]);
 
-  const handleShowingChars = (transformVal) => {
-    if (isCharsVisible && !hasScrolledInto) {
+  const handleAnimateCharBox = (transformValue) => {
+    if (isCharsVisible) {
       return {
-        transform: "translateY(0)",
+        y: "0",
         opacity: 1,
-        transitionDelay: "1000ms",
-        animationName: "charboxanim",
-        animationDuration: "2s",
-      };
-    } else if (isCharsVisible && hasScrolledInto) {
-      return {
-        transform: "translateY(0)",
-        opacity: 1,
-        transitionDelay: "1000ms",
-        animationName: "charboxanim",
-        animationDuration: "2s",
       };
     } else if (!isCharsVisible) {
       return {
-        transform: `translateY(${transformVal}%)`,
+        y: transformValue,
         opacity: 0,
-        pointerEvents: "none",
       };
     }
   };
 
+  const handleTransCharBox = () => {
+    const bounce = 5;
+    const duration = 3;
+    const delay = 1;
+    const stiffness = 20;
+    const type = "spring";
+
+    if (!hasScrolledInto) {
+      return {
+        type: type,
+        bounce: bounce,
+        stiffness: stiffness,
+        delay: delay,
+        duration: duration,
+      };
+    } else {
+      if (!isDetailsVisible) {
+        return {
+          type: type,
+          bounce: bounce,
+          stiffness: stiffness,
+          delay: delay - 0.5,
+          duration: duration,
+        };
+      } else {
+        return {
+          type: "spring",
+          bounce: bounce,
+          stiffness: stiffness,
+          duration: duration,
+        };
+      }
+    }
+  };
+
   const handleCloseCharBox = (e) => {
+    cleanMemberData();
+    toggleSliderActive();
     const { id } = e.target;
     specifyMemberData({ id: id, memberData: memberData });
     hideChars();
     showDetails();
-  };
-
-  const handleOpenCharBox = () => {
-    hideDetails();
-    showChars();
   };
 
   // console.log("from handle showing chars", {
@@ -68,107 +90,101 @@ export function CharacterSection({ memberData }) {
   // });
 
   return (
-    <div
-      className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110" // add this after debugging
-    >
+    <div className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110">
       <div
-        className={`absolute z-20 grid grid-cols-4 w-full h-full justify-center items-center px-[10px] gap-3 sm:w-full md:gap-6 md:w-full lg:gap-7 lg:w-[1024px] xl:gap-8 ${
+        className={`absolute z-20 grid grid-cols-4 w-full h-screen justify-center items-center px-[10px] gap-3 sm:w-full md:gap-6 md:w-full lg:gap-7 lg:w-[1024px] xl:gap-8 ${
           isCharsVisible ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
-        <div
-          className={`w-full h-full transition-all ease-in-out duration-1000`}
-          style={handleShowingChars(50)}
+        <motion.div
+          // TODO: Refactor this and make it so that the TRANSITION END/START events are handled so you can put pointer events manipulation in these divs
+          className={`w-full h-full`}
+          animate={handleAnimateCharBox("50vh")}
+          transition={handleTransCharBox()}
         >
-          <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
-            <div
-              id="kanade"
-              style={{
-                backgroundImage: "url('/kanade.png')",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-              onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
-            ></div>
-          </div>
-        </div>
-        <div
-          className={`w-full h-full transition-all ease-in-out duration-1000`}
-          style={handleShowingChars(-50)}
+          <CharacterBox
+            id={"Kanade"}
+            imageSrc={"/kanade.png"}
+            handleCloseCharBox={handleCloseCharBox}
+          />
+        </motion.div>
+        <motion.div
+          className={`w-full h-full`}
+          animate={handleAnimateCharBox("-50vh")}
+          transition={handleTransCharBox()}
         >
-          <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
-            <div
-              id="mafuyu"
-              style={{
-                backgroundImage: "url('/mafuyu.png')",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-              onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
-            ></div>
-          </div>
-        </div>
-        <div
-          className={`w-full h-full transition-all ease-in-out duration-1000`}
-          style={handleShowingChars(50)}
+          <CharacterBox
+            id={"Mafuyu"}
+            imageSrc={"/mafuyu.png"}
+            handleCloseCharBox={handleCloseCharBox}
+          />
+        </motion.div>
+        <motion.div
+          className={`w-full h-full`}
+          animate={handleAnimateCharBox("50vh")}
+          transition={handleTransCharBox()}
         >
-          <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
-            <div
-              id="ena"
-              style={{
-                backgroundImage: "url('/ena.png')",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-              onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
-            ></div>
-          </div>
-        </div>
-        <div
-          className={`w-full h-full transition-all ease-in-out duration-1000`}
-          style={handleShowingChars(-50)}
+          <CharacterBox
+            id={"Ena"}
+            imageSrc={"/ena.png"}
+            handleCloseCharBox={handleCloseCharBox}
+          />
+        </motion.div>
+        <motion.div
+          className={`w-full h-full`}
+          animate={handleAnimateCharBox("-50vh")}
+          transition={handleTransCharBox()}
         >
-          <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
-            <div
-              id="mizuki"
-              style={{
-                backgroundImage: "url('/mizuki.png')",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-              onClick={handleCloseCharBox}
-              className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
-            ></div>
-          </div>
-        </div>
+          <CharacterBox
+            id={"Mizuki"}
+            imageSrc={"/mizuki.png"}
+            handleCloseCharBox={handleCloseCharBox}
+          />
+        </motion.div>
       </div>
 
-      <CharacterDetails
-        isDetailsVisible={isDetailsVisible}
-        characterData={currentCharacter}
-        handleOpenCharBox={handleOpenCharBox}
-      />
+      <CharacterDetails characterData={currentCharacter} />
     </div>
   );
 }
 
-function CharacterDetails({
-  isDetailsVisible,
-  characterData,
-  handleOpenCharBox,
-}) {
-  const { toggleVideoModal } = useCharSectionState();
-  const videoModalVisible = useCharSectionState(
-    (state) => state.videoModalVisible
+function CharacterBox({ id, imageSrc, handleCloseCharBox }) {
+  return (
+    <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
+      <div
+        id={id}
+        style={{
+          backgroundImage: `url(${imageSrc})`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+        onClick={handleCloseCharBox}
+        className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
+      ></div>
+    </div>
   );
+}
 
-  const handleCloseModal = () => {
-    console.log(videoModalVisible);
-    toggleVideoModal();
+function CharacterDetails({ characterData }) {
+  const { videoModalVisible, isDetailsVisible, currentCharacter } =
+    useCharSectionState((state) => state);
+
+  const { hideDetails, showChars } = useCharSectionState();
+  const { toggleSliderActive } = useGlobalState();
+
+  const detailsHolderRef = useRef();
+
+  const handleOpenCharBox = () => {
+    toggleSliderActive();
+    hideDetails();
+    showChars();
   };
+
+  useEffect(() => {
+    if (detailsHolderRef !== null) {
+      detailsHolderRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [currentCharacter]);
 
   return (
     <div
@@ -176,75 +192,108 @@ function CharacterDetails({
     >
       {(() => {
         if (videoModalVisible) {
-          return (
-            <div className="absolute z-20 w-full h-full bg-nightcord-110 bg-opacity-[0.8]">
-              <div
-                className="absolute z-20 translate-x-[-50%] translate-y-[-50%] top-[22%] left-[71%]"
-                onClick={handleCloseModal}
-              >
-                <AiOutlineClose className="fixed z-20 w-[40px] h-[40px] translate-x-[-50%] translate-y-[-50%] top-[50%] left-[50%]" />
-              </div>
-
-              <div className="absolute translate-x-[-50%] translate-y-[-50%] top-[50%] left-[50%] max-w-[768px] max-h-[432px] w-full h-full">
-                <iframe
-                  // width="1280"
-                  // height="720"
-                  src="https://www.youtube.com/embed/u7vu0ubr_nM"
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  className="w-full h-full z-10"
-                ></iframe>
-              </div>
-            </div>
-          );
+          return <VideoModal />;
         }
       })()}
       <div
         className={`transition-all duration-1000 absolute z-30 bg-nightcord-110  w-full h-full ${
           isDetailsVisible
-            ? "delay-1000 opacity-[0] pointer-events-none"
+            ? "delay-500 opacity-[0] pointer-events-none"
             : "opacity-[1]"
         }`}
       ></div>
 
       <button
         className={`transition-all duration-1000 absolute z-10 left-2 top-2 w-20 h-20 bg-nightcord-30 ${
-          isDetailsVisible ? "opacity-[1]" : "opacity-[0] pointer-events-none"
+          isDetailsVisible
+            ? "opacity-[1] visible"
+            : "opacity-[0] pointer-events-none invisible"
         }`}
         onClick={handleOpenCharBox}
       >
         BACK TO TALENTS
       </button>
-
-      <div className={`flex transition-all duration-1000 w-[70%] h-full`}>
-        <div className={`flex justify-center items-center w-[50%] h-full`}>
-          <div className="w-full h-full py-10 px-2">
-            <div
-              id="mizuki"
-              style={{
-                backgroundImage: "url('/mizuki-full.png')",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-              className="w-full h-full p-6"
-            ></div>
-          </div>
+      <div
+        ref={detailsHolderRef}
+        className="flex flex-wrap w-full h-full overflow-auto"
+      >
+        <div className="flex justify-center items-center w-full h-full md:w-[50%]">
+          <AnimatePresence>
+            {isDetailsVisible && (
+              <motion.div
+                initial={{ y: "-100vh", opacity: 0 }}
+                exit={{
+                  y: "-100vh",
+                  opacity: 0,
+                  transition: {
+                    duration: 2.5,
+                  },
+                }}
+                animate={{
+                  y: "0",
+                  opacity: 1,
+                  // y: ["0vh", "1vh", "-1.2vh", "0vh"],
+                }}
+                transition={{
+                  type: "spring",
+                  bounce: 0.25,
+                  stiffness: 20,
+                  delay: 1,
+                  duration: 2.5,
+                }}
+              >
+                <div className="flex w-full h-full justify-center items-center">
+                  <div
+                    className="w-[500px] h-[500px] overflow-hidden"
+                    style={{
+                      clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+                    }}
+                  >
+                    <img
+                      src={characterData.image}
+                      className="object-center object-cover"
+                    ></img>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-        <div className={`flex justify-center items-center w-[50%] h-full`}>
-          <div className="w-full h-full py-10 px-2">
-            <div>{characterData.firstName}</div>
-            <div>{characterData.lastName}</div>
-            <div>{characterData.voiceActor}</div>
-            <VideoProxy src={characterData.introVideoLink} />
-          </div>
-        </div>
+        <div className="w-full h-full md:w-[50%]"></div>
       </div>
       <div className="absolute bg-gradient-to-b from-transparent to-nightcord-110 h-full w-full pointer-events-none">
         <img
-          src="/bg_school_refusal.png"
-          className="absolute z-[-1] blur-md opacity-30 object-none h-full w-full"
+          src={characterData.imageFull}
+          className="absolute z-[-1] blur-sm opacity-10 object-cover object-top grayscale-[100%] h-full w-full"
         ></img>
+      </div>
+    </div>
+  );
+}
+
+function VideoModal() {
+  const { toggleVideoModal } = useCharSectionState();
+  const handleCloseModal = () => {
+    toggleVideoModal();
+  };
+  return (
+    <div className="absolute z-20 w-full h-full bg-nightcord-110 bg-opacity-[0.8]">
+      <div
+        className="absolute z-20 translate-x-[-50%] translate-y-[-50%] top-[22%] left-[71%]"
+        onClick={handleCloseModal}
+      >
+        <AiOutlineClose className="fixed z-20 w-[40px] h-[40px] translate-x-[-50%] translate-y-[-50%] top-[50%] left-[50%]" />
+      </div>
+
+      <div className="absolute translate-x-[-50%] translate-y-[-50%] top-[50%] left-[50%] max-w-[768px] max-h-[432px] w-full h-full">
+        <iframe
+          // width="1280"
+          // height="720"
+          src="https://www.youtube.com/embed/u7vu0ubr_nM"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          className="w-full h-full z-10"
+        ></iframe>
       </div>
     </div>
   );

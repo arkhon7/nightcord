@@ -5,7 +5,7 @@ export function Navbar() {
   const { sectionIndex, isShowing } = useGlobalState((state) => state);
 
   const handleOpacity = (index) => {
-    return index > 0 ? "bg-nightcord-90 shadow-sm" : "";
+    return index > 0 ? "" : "bg-nightcord-90 shadow-sm";
   };
 
   return (

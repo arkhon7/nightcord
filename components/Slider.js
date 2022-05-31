@@ -49,22 +49,16 @@ export function SlideShow({ children, direction, width, height }) {
   );
 
   const handleTouchStart = (e) => {
+    if (!isSliderActive) return; // disable event if slider not active
     let currentY = e.touches[0].clientY;
     setLastY(currentY);
-    console.log(lastY);
   };
 
   const handleTouchMove = (e) => {
+    if (!isSliderActive) return; // disable event if slider not active
+
     let currentY = e.touches[0].clientY;
     const index = incrementedPoints.length - 1;
-    // if (currentY > lastY) {
-    //   console.log("moved down");
-    // } else if (currentY < lastY) {
-    //   console.log("moved up");
-    // }
-    // console.log(lastY, currentY);
-    // lastY = currentY;
-    // console.log(currentY, lastY);
 
     slide.current((state) => {
       console.log("current:", currentY, "last:", lastY);
@@ -93,6 +87,8 @@ export function SlideShow({ children, direction, width, height }) {
   };
 
   const handleWheel = (e) => {
+    if (!isSliderActive) return; // disable event if slider not active
+
     const index = incrementedPoints.length - 1;
     slide.current((state) => {
       if (e.deltaY === -100) {
@@ -119,7 +115,7 @@ export function SlideShow({ children, direction, width, height }) {
     });
   };
 
-  const { setSectionIndex } = useGlobalState();
+  const { setSectionIndex, isSliderActive } = useGlobalState();
 
   useEffect(() => {
     console.log(incrementedPoints);

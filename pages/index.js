@@ -80,38 +80,29 @@ export async function getStaticProps() {
 
 export default function Home({ memberData }) {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full bg-nightcord-110">
       <Preloader />
       <Navbar />
       <SlideShow width={"100vw"} height={"100vh"} direction={"y"}>
         <Slide transformValueY={0} className="bg-nightcord-20 w-full h-screen">
-          <div className="flex h-full w-full justify-center items-center">
-            <IntroVideo />
-          </div>
+          <IntroVideo />
         </Slide>
         <Slide
           transformValueY={100}
-          className="bg-nightcord-30 w-full h-screen"
+          className="bg-nightcord-110 w-full h-screen"
         >
           <div className="flex h-full w-full justify-center items-center bg-nightcord-110">
-            <div className="font-nightcord max-w-[400px] max-h-[200px] text-center text-nightcord-30 bg-nightcord-70 text-xl overflow-hidden typewriter">
+            <div className="font-nightcord max-w-[400px] max-h-[200px] text-center text-nightcord-30 text-xl overflow-hidden">
               &ldquo;An underground music circle that operates at 1&#58;00 AM
               (25:00)&#44; and whose identities are shrouded in
               mystery&#46;&rdquo;
-              {/* <div className="relative inline-flex w-[2px] h-5 left-0 bg-nightcord-70"></div> */}
             </div>
           </div>
         </Slide>
-        <Slide
-          transformValueY={100}
-          className="bg-nightcord-30 w-full h-screen"
-        >
+        <Slide transformValueY={100} className="w-full h-screen">
           <CharacterSection memberData={memberData} />
         </Slide>
-        <Slide
-          transformValueY={100}
-          className="bg-nightcord-40 w-full h-screen"
-        >
+        <Slide transformValueY={100} className="w-full h-screen">
           <div className="flex h-full w-full justify-center items-center bg-nightcord-110 text-nightcord-70">
             FEED
           </div>

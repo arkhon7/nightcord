@@ -2,7 +2,10 @@ import create from "zustand";
 
 export const useGlobalState = create((set) => ({
   sectionIndex: 0,
+  isSliderActive: true,
   setSectionIndex: (payload) => set({ sectionIndex: payload }),
+  toggleSliderActive: () =>
+    set((state) => ({ isSliderActive: !state.isSliderActive })),
 }));
 
 export const useCharSectionState = create((set) => ({
@@ -26,16 +29,18 @@ export const useCharSectionState = create((set) => ({
   hideDetails: () => set({ isDetailsVisible: false, hasScrolledInto: true }),
   specifyMemberData: (payload) =>
     set(() => {
-      if (payload.id === "mizuki") {
+      if (payload.id === "Mizuki") {
         return { currentCharacter: payload.memberData.mizuki };
-      } else if (payload.id === "kanade") {
+      } else if (payload.id === "Kanade") {
         return { currentCharacter: payload.memberData.kanade };
-      } else if (payload.id === "ena") {
+      } else if (payload.id === "Ena") {
         return { currentCharacter: payload.memberData.ena };
-      } else if (payload.id === "mafuyu") {
+      } else if (payload.id === "Mafuyu") {
         return { currentCharacter: payload.memberData.mafuyu };
       }
     }),
+
+  cleanMemberData: () => set({ currentCharacter: {} }),
 
   setDurationValue: (payload) => set({ durationValue: payload }),
   setPreDurationValue: (payload) => set({ preDurationValue: payload }),
