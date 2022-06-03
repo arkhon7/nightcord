@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { useGlobalState } from "../app/store";
+import { useGlobalState } from "../app/store/slider";
 
 const throttle = (cb, delay = 500) => {
   let shouldWait = false;
@@ -20,6 +20,7 @@ export function SlideShow({ children, direction, width, height }) {
   const [currSlideIndex, setCurrSlideIndex] = useState(0);
   const [transformVal, setTransformVal] = useState(0);
   const [lastY, setLastY] = useState(0);
+  const [lastX, setLastX] = useState(0);
 
   var breakpoints = [];
   const incrementedPoints = [];
@@ -50,19 +51,31 @@ export function SlideShow({ children, direction, width, height }) {
 
   const handleTouchStart = (e) => {
     if (!isSliderActive) return; // disable event if slider not active
-    let currentY = e.touches[0].clientY;
-    setLastY(currentY);
+    let { clientY, clientX } = e.touches[0];
+    setLastY(clientY);
+    setLastX(clientX);
   };
 
   const handleTouchMove = (e) => {
     if (!isSliderActive) return; // disable event if slider not active
 
-    let currentY = e.touches[0].clientY;
+    let { clientY, clientX } = e.touches[0];
     const index = incrementedPoints.length - 1;
+    const currentY = clientY;
+    const currentX = clientX;
 
     slide.current((state) => {
-      console.log("current:", currentY, "last:", lastY);
-      if (currentY > lastY) {
+      // console.log(
+      //   "currentY:",
+      //   currentY,
+      //   "lastY:",
+      //   lastY,
+      //   "currentX:",
+      //   currentX,
+      //   "lastX:",
+      //   lastX
+      // );
+      if (currentY > lastY && currentY > currentX) {
         console.log("up");
 
         const decrementedIndex = state - 1;
@@ -72,7 +85,7 @@ export function SlideShow({ children, direction, width, height }) {
         } else {
           return decrementedIndex;
         }
-      } else if (currentY < lastY) {
+      } else if (currentY < lastY && currentY > currentX) {
         console.log("down");
 
         const incrementedIndex = state + 1;

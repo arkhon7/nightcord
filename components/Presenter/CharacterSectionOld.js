@@ -1,29 +1,139 @@
-import { useEffect, forwardRef, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGlobalState, useCharSectionState } from "../app/store";
 import { AiFillPlayCircle, AiOutlineClose } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 
+///// Experimental
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFade, Navigation, Pagination } from "swiper";
+/////
+
 export function CharacterSection({ memberData }) {
-  const {
-    initChars,
-    currentCharacter,
-    specifyMemberData,
-    showDetails,
-    hideChars,
-    cleanMemberData,
-  } = useCharSectionState();
-
-  const { hasScrolledInto, isDetailsVisible, isCharsVisible } =
-    useCharSectionState((state) => state);
-
+  const { initChars, currentCharacter } = useCharSectionState();
+  const { isCharsVisible } = useCharSectionState((state) => state);
   const { sectionIndex } = useGlobalState((state) => state);
-  const { toggleSliderActive } = useGlobalState();
 
   useEffect(() => {
     if (sectionIndex === 2) {
       initChars();
     }
   }, [sectionIndex]);
+
+  return (
+    <div className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110">
+      <div
+        className={`absolute z-20 hidden grid-cols-4 w-full h-screen gap-[2%] px-[2.5%] justify-center items-center md:grid lg:max-w-[1100px] ${
+          isCharsVisible ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
+        <AnimatePresence>
+          {isCharsVisible && (
+            <>
+              <CharacterBox
+                id={"Kanade"}
+                imageSrc={"/kanade.png"}
+                transformVal={"50vh"}
+                memberData={memberData}
+              />
+              <CharacterBox
+                id={"Mafuyu"}
+                imageSrc={"/mafuyu.png"}
+                transformVal={"-50vh"}
+                memberData={memberData}
+              />
+              <CharacterBox
+                id={"Ena"}
+                imageSrc={"/ena.png"}
+                transformVal={"50vh"}
+                memberData={memberData}
+              />
+              <CharacterBox
+                id={"Mizuki"}
+                imageSrc={"/mizuki.png"}
+                transformVal={"-50vh"}
+                memberData={memberData}
+              />
+            </>
+          )}
+        </AnimatePresence>
+      </div>
+      <div className="absolute z-20 md:hidden w-full h-full">
+        <Swiper
+          effect={"fade"}
+          fadeEffect={{ crossFade: true }}
+          navigation={true}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[EffectFade, Navigation, Pagination]}
+          className="w-full h-full"
+        >
+          <SwiperSlide>
+            <div className="absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] w-[50vw] max-w-[512px] h-auto overflow-hidden">
+              <img
+                className="w-full h-auto transition-all duration-500"
+                src={"/kanade.png"}
+              ></img>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] w-[50vw] max-w-[512px] h-auto overflow-hidden">
+              <img
+                className="w-full h-auto transition-all duration-500"
+                src={"/mafuyu.png"}
+              ></img>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] w-[50vw] max-w-[512px] h-auto overflow-hidden">
+              <img
+                className="w-full h-auto transition-all duration-500"
+                src={"/ena.png"}
+              ></img>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] w-[50vw] max-w-[512px] h-auto overflow-hidden">
+              <img
+                className="w-full h-auto transition-all duration-500"
+                src={"/mizuki.png"}
+              ></img>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+
+      <CharacterDetails characterData={currentCharacter} />
+    </div>
+  );
+}
+
+function CharacterBox({ id, imageSrc, transformVal, memberData }) {
+  const {
+    specifyMemberData,
+    showDetails,
+    hideChars,
+    cleanMemberData,
+    hasScrolledInto,
+    isDetailsVisible,
+    isCharsVisible,
+  } = useCharSectionState();
+
+  const { toggleSliderActive } = useGlobalState();
+
+  const handleCloseCharBox = (e) => {
+    cleanMemberData();
+    toggleSliderActive();
+    const { id } = e.target;
+    specifyMemberData({ id: id, memberData: memberData });
+    hideChars();
+    showDetails();
+  };
 
   const handleAnimateCharBox = (transformValue) => {
     if (isCharsVisible) {
@@ -41,9 +151,9 @@ export function CharacterSection({ memberData }) {
 
   const handleTransCharBox = () => {
     const bounce = 5;
-    const duration = 3;
+    const duration = 1;
     const delay = 1;
-    const stiffness = 20;
+    const stiffness = 40;
     const type = "spring";
 
     if (!hasScrolledInto) {
@@ -67,101 +177,36 @@ export function CharacterSection({ memberData }) {
         return {
           type: "spring",
           bounce: bounce,
-          stiffness: stiffness,
+          stiffness: stiffness - 15,
           duration: duration,
         };
       }
     }
   };
 
-  const handleCloseCharBox = (e) => {
-    cleanMemberData();
-    toggleSliderActive();
-    const { id } = e.target;
-    specifyMemberData({ id: id, memberData: memberData });
-    hideChars();
-    showDetails();
-  };
-
-  // console.log("from handle showing chars", {
-  //   isCharsVisible: isCharsVisible,
-  //   hasScrolledInto: hasScrolledInto,
-  //   isDetailsVisible: isDetailsVisible,
-  // });
-
   return (
-    <div className="relative flex h-full w-full justify-center items-center overflow-hidden bg-nightcord-110">
-      <div
-        className={`absolute z-20 grid grid-cols-4 w-full h-screen justify-center items-center px-[10px] gap-3 sm:w-full md:gap-6 md:w-full lg:gap-7 lg:w-[1024px] xl:gap-8 ${
-          isCharsVisible ? "pointer-events-auto" : "pointer-events-none"
-        }`}
-      >
-        <motion.div
-          // TODO: Refactor this and make it so that the TRANSITION END/START events are handled so you can put pointer events manipulation in these divs
-          className={`w-full h-full`}
-          animate={handleAnimateCharBox("50vh")}
-          transition={handleTransCharBox()}
+    <motion.div
+      className={`w-full h-full`}
+      initial={{ y: transformVal, opacity: 0 }}
+      exit={{ y: transformVal, opacity: 0 }}
+      animate={handleAnimateCharBox("-50vh")}
+      transition={handleTransCharBox()}
+    >
+      <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden lg:w-[228px]">
+        <div
+          id={id}
+          onClick={handleCloseCharBox}
+          className="relative w-full h-full char-box-shadow group char-box-img"
         >
-          <CharacterBox
-            id={"Kanade"}
-            imageSrc={"/kanade.png"}
-            handleCloseCharBox={handleCloseCharBox}
-          />
-        </motion.div>
-        <motion.div
-          className={`w-full h-full`}
-          animate={handleAnimateCharBox("-50vh")}
-          transition={handleTransCharBox()}
-        >
-          <CharacterBox
-            id={"Mafuyu"}
-            imageSrc={"/mafuyu.png"}
-            handleCloseCharBox={handleCloseCharBox}
-          />
-        </motion.div>
-        <motion.div
-          className={`w-full h-full`}
-          animate={handleAnimateCharBox("50vh")}
-          transition={handleTransCharBox()}
-        >
-          <CharacterBox
-            id={"Ena"}
-            imageSrc={"/ena.png"}
-            handleCloseCharBox={handleCloseCharBox}
-          />
-        </motion.div>
-        <motion.div
-          className={`w-full h-full`}
-          animate={handleAnimateCharBox("-50vh")}
-          transition={handleTransCharBox()}
-        >
-          <CharacterBox
-            id={"Mizuki"}
-            imageSrc={"/mizuki.png"}
-            handleCloseCharBox={handleCloseCharBox}
-          />
-        </motion.div>
+          <div className="absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] w-[50vw] max-w-[512px] h-auto overflow-hidden">
+            <img
+              className="w-full h-auto transition-all duration-500 group-hover:scale-110"
+              src={imageSrc}
+            ></img>
+          </div>
+        </div>
       </div>
-
-      <CharacterDetails characterData={currentCharacter} />
-    </div>
-  );
-}
-
-function CharacterBox({ id, imageSrc, handleCloseCharBox }) {
-  return (
-    <div className="CHARBAR relative flex justify-center items-center w-full h-full overflow-hidden">
-      <div
-        id={id}
-        style={{
-          backgroundImage: `url(${imageSrc})`,
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-        onClick={handleCloseCharBox}
-        className="w-full h-full transition-all duration-500 char-box-shadow hover:scale-105 bg-[length:500px] sm:bg-[length:525px] md:bg-[length:550px] lg:bg-[length:600px]"
-      ></div>
-    </div>
+    </motion.div>
   );
 }
 
