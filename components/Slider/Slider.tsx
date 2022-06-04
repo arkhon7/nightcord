@@ -2,12 +2,12 @@ import React from "react";
 import { useSlider } from "./store";
 
 interface SliderProp {
-  className: string;
-  children: React.ReactNode;
-  interval: number;
-  direction: "x" | "y";
-  sliderStyle: object;
-  style: object;
+  className?: string;
+  children?: React.ReactNode;
+  interval?: number;
+  direction?: "x" | "y";
+  sliderStyle?: object;
+  style?: object;
 }
 
 interface Point {
@@ -29,7 +29,7 @@ const throttle = (cb: any, delay: number = 500) => {
   };
 };
 
-export const Slider: React.FC = ({
+export const Slider: React.FC<React.PropsWithChildren<SliderProp>> = ({
   className,
   children,
   interval,
@@ -134,4 +134,4 @@ export const Slider: React.FC = ({
 // TODO
 // - add option for units
 // - add attributes for further styling
-// add support for direction
+// - add support for direction

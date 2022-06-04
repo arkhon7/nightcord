@@ -12,7 +12,7 @@ import { VscListFlat } from "react-icons/vsc";
 ////// TSX Refactor
 // components
 import { Slider, Slide, useSlider } from "../components/Slider";
-import { Stage, StageElement, usePresenter } from "../components/Presenter";
+import { ShowCaseSection } from "../components/ShowCaseSection";
 // states hooks
 
 //////
@@ -110,11 +110,7 @@ export default function Home({ memberData }) {
         className="flex justify-center items-center w-screen h-screen"
         offset={-100}
       >
-        <Stage>
-          <StageElement key="mizuki" className="w-50 h-50">
-            MIZUKI
-          </StageElement>
-        </Stage>
+        <ShowCaseSection />
       </Slide>
       <Slide
         className="flex justify-center items-center w-screen h-screen"

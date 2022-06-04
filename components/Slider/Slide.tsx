@@ -6,7 +6,11 @@ interface SlideProp {
   offset: number;
 }
 
-export const Slide: React.FC = ({ className, children, offset }: SlideProp) => {
+export const Slide: React.FC<React.PropsWithChildren<SlideProp>> = ({
+  className,
+  children,
+  offset,
+}: SlideProp) => {
   return (
     <div data-offset={offset} className={className}>
       {children}

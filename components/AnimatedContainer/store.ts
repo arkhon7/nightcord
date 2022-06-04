@@ -1,12 +1,12 @@
 import create from "zustand";
 
-interface PresenterStore {
+interface AnimatedContainerStore {
   active: boolean;
   open: () => void;
   close: () => void;
 }
 
-export const usePresenter = create<PresenterStore>((set) => ({
+export const useAnimatedContainer = create<AnimatedContainerStore>((set) => ({
   active: false,
   open: () => set({ active: true }),
   close: () => set({ active: false }),
