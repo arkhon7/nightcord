@@ -11,8 +11,10 @@ import { VscListFlat } from "react-icons/vsc";
 
 ////// TSX Refactor
 // components
-import { Slider, Slide, useSlider } from "../components/Slider";
-import { ShowCaseSection } from "../components/ShowCaseSection";
+import { Slider, Slide } from "../components/Slider";
+import { Animation } from "../components/Animation";
+import { ShowCase } from "../layouts/ShowCaseSection";
+
 // states hooks
 
 //////
@@ -87,90 +89,48 @@ export async function getStaticProps() {
 }
 
 export default function Home({ memberData }) {
-  const slider = useSlider();
-
   return (
     <Slider
       className="w-screen h-screen"
-      interval={1200}
+      interval={1000}
       direction="y"
       sliderStyle={{
         transition: "all",
-        transitionDuration: "1.2s",
+        transitionDuration: "1s",
         transitionTimingFunction: "ease-in-out",
       }}
     >
       <Slide
-        className="flex justify-center items-center w-screen h-screen"
+        className="relative flex justify-center items-center w-screen h-screen"
         offset={0}
       >
-        <div className="fixed">{slider.index}</div>
+        <div className="fixed">SLIDER 0</div>
       </Slide>
-      <Slide
-        className="flex justify-center items-center w-screen h-screen"
-        offset={-100}
-      >
-        <ShowCaseSection />
+      <Slide className="w-screen h-screen" offset={-100}>
+        <Animation>
+          <ShowCase />
+        </Animation>
       </Slide>
       <Slide
         className="flex justify-center items-center w-screen h-screen"
         offset={-200}
       >
-        <div className="fixed">{slider.index}</div>
+        <div className="fixed">SLIDER 2</div>
       </Slide>
       <Slide
         className="flex justify-center items-center w-screen h-screen"
         offset={-300}
       >
-        <div className="fixed">{slider.index}</div>
+        <div className="fixed">SLIDER 3</div>
       </Slide>
       <Slide
         className="flex justify-center items-center w-screen h-[30vh]"
         offset={-330}
       >
-        <div className="fixed">{slider.index}</div>
+        <div className="fixed">SLIDER 4</div>
       </Slide>
     </Slider>
   );
 }
 
 /// TODO
-
-// <div className="relative w-full h-full bg-nightcord-110">
-//   <Preloader />
-//   <Navbar />
-
-//   <SlideShow width={"100vw"} height={"100vh"} direction={"y"}>
-//     <Slide transformValueY={0} className="bg-nightcord-20 w-full h-screen">
-//       <IntroVideo />
-//     </Slide>
-//     <Slide
-//       transformValueY={100}
-//       className="bg-nightcord-110 w-full h-screen"
-//     >
-//       <div className="flex h-full w-full justify-center items-center bg-nightcord-110">
-//         <div className="font-nightcord max-w-[400px] max-h-[200px] text-center text-nightcord-30 text-xl overflow-hidden">
-//           &ldquo;An underground music circle that operates at 1&#58;00 AM
-//           (25:00)&#44; and whose identities are shrouded in
-//           mystery&#46;&rdquo;
-//         </div>
-//       </div>
-//     </Slide>
-//     <Slide transformValueY={100} className="w-full h-screen">
-//       <CharacterSection memberData={memberData} />
-//     </Slide>
-//     <Slide transformValueY={100} className="w-full h-screen">
-//       <div className="flex h-full w-full justify-center items-center bg-nightcord-110 text-nightcord-70">
-//         FEED
-//       </div>
-//     </Slide>
-//     <Slide
-//       transformValueY={30}
-//       className="bg-nightcord-110 w-full h-screen shadow-xl shadow-nightcord-110"
-//     >
-//       <div className="flex h-[30vh] w-full justify-center items-center">
-//         FOOTER
-//       </div>
-//     </Slide>
-//   </SlideShow>
-// </div>

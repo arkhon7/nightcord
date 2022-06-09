@@ -1,7 +1,7 @@
 import React from "react";
-import { useSlider } from "./store";
+import { SliderContext } from "./SliderContext";
 
-interface SliderProp {
+export interface ISlider {
   className?: string;
   children?: React.ReactNode;
   interval?: number;
@@ -29,14 +29,14 @@ const throttle = (cb: any, delay: number = 500) => {
   };
 };
 
-export const Slider: React.FC<React.PropsWithChildren<SliderProp>> = ({
+export const Slider: React.FC<React.PropsWithChildren<ISlider>> = ({
   className,
   children,
   interval,
   direction,
   sliderStyle,
   style,
-}: SliderProp) => {
+}: ISlider) => {
   // for tracking the pointer down event
 
   const [startPos, setStartPos] = React.useState<Point>({
@@ -45,18 +45,33 @@ export const Slider: React.FC<React.PropsWithChildren<SliderProp>> = ({
   });
 
   const [currOffset, setCurrOffset] = React.useState<number>(0);
-
-  const { index, next, prev, setMaxIndex } = useSlider();
+  const [index, setIndex] = React.useState(0); // New
 
   // track offset
   React.useEffect(() => {
     setCurrOffset(children[index].props.offset);
   }, [index]);
 
-  // Initialize state
-  React.useEffect(() => {
-    setMaxIndex(React.Children.count(children) - 1);
-  }, []);
+  const next = () => {
+    setIndex((index) => {
+      const maxIndex = React.Children.count(children) - 1;
+      if (index + 1 > maxIndex) {
+        return index;
+      } else {
+        return index + 1;
+      }
+    });
+  };
+
+  const prev = () => {
+    setIndex((index) => {
+      if (index - 1 < 0) {
+        return 0;
+      } else {
+        return index - 1;
+      }
+    });
+  };
 
   // for handling the wheel events function
   const changeSlideByWheel = (e: React.WheelEvent) => {
@@ -71,9 +86,16 @@ export const Slider: React.FC<React.PropsWithChildren<SliderProp>> = ({
   const changeSlideByPointer = (startPos: Point, e: React.PointerEvent) => {
     const endPos: Point = { x: e.clientX, y: e.clientY };
 
-    if (startPos.y - endPos.y < 1) {
+    // if (startPos.y - endPos.y < 1) {
+    //   prev();
+    // } else if (startPos.y - endPos.y > 1) {
+    //   next();
+    // }
+
+    // temporary fix for the unstable touch events (plwease lemwe knmow anmyy bwetter awpproach uwu~)
+    if (e.movementY >= 1) {
       prev();
-    } else if (startPos.y - endPos.y > 1) {
+    } else if (e.movementY <= -1) {
       next();
     }
   };
@@ -88,6 +110,8 @@ export const Slider: React.FC<React.PropsWithChildren<SliderProp>> = ({
   const throttledPointerSlide = React.useRef(
     throttle((startPos: Point, e: React.PointerEvent) => {
       changeSlideByPointer(startPos, e);
+      // setStartPos({ x: e.clientX, y: e.clientY });
+      // console.log({ x: e.clientX, y: e.clientY });
     }, interval)
   );
 
@@ -106,31 +130,30 @@ export const Slider: React.FC<React.PropsWithChildren<SliderProp>> = ({
     throttledPointerSlide.current(startPos, e);
   };
 
-  // helpers
-
   return (
-    <div
-      className={className}
-      onWheel={handleWheelEvent}
-      onPointerMove={handlePointerMoveEvent}
-      onPointerDown={handlePointerDownEvent}
-      style={{ overflow: "hidden", ...style }}
-    >
+    <SliderContext.Provider value={{ index: index, prev: prev, next: next }}>
       <div
-        style={{
-          transform:
-            direction === "y"
-              ? `translateY(${currOffset}vh)`
-              : `translateX(${currOffset}vw)`,
-          ...sliderStyle,
-        }}
+        className={className}
+        onWheel={handleWheelEvent}
+        onPointerMove={handlePointerMoveEvent}
+        onPointerDown={handlePointerDownEvent}
+        style={{ overflow: "hidden", ...style, touchAction: "none" }}
       >
-        {children}
+        <div
+          style={{
+            transform:
+              direction === "y"
+                ? `translateY(${currOffset}vh)`
+                : `translateX(${currOffset}vw)`,
+            ...sliderStyle,
+          }}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </SliderContext.Provider>
   );
 };
-
 // TODO
 // - add option for units
 // - add attributes for further styling

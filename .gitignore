@@ -36,3 +36,4 @@ yarn-error.log*
 
 # dev
 dev.notes.txt
+/legacy_code
