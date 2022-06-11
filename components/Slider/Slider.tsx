@@ -1,60 +1,49 @@
 import React from "react";
 import { SliderContext } from "./SliderContext";
+import { throttle } from "./helper";
 
-export interface ISlider {
+interface ISlide extends React.ReactElement {
+  offset: any;
+}
+
+interface ISliderChildren extends React.ReactElement {
+  props: ISlide;
+}
+
+interface ISlider {
   className?: string;
-  children?: React.ReactNode;
+  children?: ISliderChildren;
   interval?: number;
   direction?: "x" | "y";
   sliderStyle?: object;
   style?: object;
 }
 
-interface Point {
+type Point = {
   x: number;
   y: number;
-}
-
-const throttle = (cb: any, delay: number = 500) => {
-  let shouldWait = false;
-
-  return (...arg: any) => {
-    if (shouldWait) return;
-
-    cb(...arg);
-    shouldWait = true;
-    setTimeout(() => {
-      shouldWait = false;
-    }, delay);
-  };
 };
 
-export const Slider: React.FC<React.PropsWithChildren<ISlider>> = ({
-  className,
-  children,
-  interval,
-  direction,
-  sliderStyle,
-  style,
-}: ISlider) => {
+export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
+  props: ISlider
+) => {
   // for tracking the pointer down event
-
-  const [startPos, setStartPos] = React.useState<Point>({
-    x: 0,
-    y: 0,
-  });
+  const [startPos, setStartPos] = React.useState<Point>({ x: null, y: null });
+  const [endPos, setEndPos] = React.useState<Point>({ x: null, y: null });
 
   const [currOffset, setCurrOffset] = React.useState<number>(0);
-  const [index, setIndex] = React.useState(0); // New
+  const [index, setIndex] = React.useState(0);
 
   // track offset
   React.useEffect(() => {
-    setCurrOffset(children[index].props.offset);
+    const currSlide: ISlide = props.children[index];
+    console.log(currSlide);
+    setCurrOffset(currSlide.props.offset);
   }, [index]);
 
   const next = () => {
     setIndex((index) => {
-      const maxIndex = React.Children.count(children) - 1;
+      const maxIndex = React.Children.count(props.children) - 1;
       if (index + 1 > maxIndex) {
         return index;
       } else {
@@ -83,20 +72,15 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = ({
   };
 
   // for handling the touch events
-  const changeSlideByPointer = (startPos: Point, e: React.PointerEvent) => {
-    const endPos: Point = { x: e.clientX, y: e.clientY };
+  const changeSlideByPointer = (startPos: Point, endPos: Point) => {
+    const minimum = 50;
+    if (endPos.y === null || endPos.x === null) return;
 
-    // if (startPos.y - endPos.y < 1) {
-    //   prev();
-    // } else if (startPos.y - endPos.y > 1) {
-    //   next();
-    // }
-
-    // temporary fix for the unstable touch events (plwease lemwe knmow anmyy bwetter awpproach uwu~)
-    if (e.movementY >= 1) {
-      prev();
-    } else if (e.movementY <= -1) {
+    console.log(startPos.y, endPos.y, startPos.y - endPos.y);
+    if (startPos.y - endPos.y > minimum) {
       next();
+    } else if (startPos.y - endPos.y < -minimum) {
+      prev();
     }
   };
 
@@ -104,15 +88,13 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = ({
   const throttledWheelSlide = React.useRef(
     throttle((e: React.WheelEvent) => {
       changeSlideByWheel(e);
-    }, interval)
+    }, props.interval)
   );
 
   const throttledPointerSlide = React.useRef(
-    throttle((startPos: Point, e: React.PointerEvent) => {
-      changeSlideByPointer(startPos, e);
-      // setStartPos({ x: e.clientX, y: e.clientY });
-      // console.log({ x: e.clientX, y: e.clientY });
-    }, interval)
+    throttle((startPos: Point, endPos: Point) => {
+      changeSlideByPointer(startPos, endPos);
+    }, props.interval)
   );
 
   // Event handlers
@@ -122,39 +104,48 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = ({
 
   const handlePointerDownEvent = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "touch") return;
+    setEndPos({ x: null, y: null });
     setStartPos({ x: e.clientX, y: e.clientY });
   };
 
   const handlePointerMoveEvent = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "touch") return;
-    throttledPointerSlide.current(startPos, e);
+    setEndPos({ x: e.clientX, y: e.clientY });
   };
+
+  const handlePointerLeaveEvent = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "touch") return;
+    throttledPointerSlide.current(startPos, endPos);
+  };
+
+  // helpers
 
   return (
     <SliderContext.Provider value={{ index: index, prev: prev, next: next }}>
       <div
-        className={className}
+        className={props.className}
         onWheel={handleWheelEvent}
         onPointerMove={handlePointerMoveEvent}
         onPointerDown={handlePointerDownEvent}
-        style={{ overflow: "hidden", ...style, touchAction: "none" }}
+        onPointerLeave={handlePointerLeaveEvent}
+        style={{ overflow: "hidden", ...props.style, touchAction: "none" }}
       >
         <div
           style={{
+            display: "grid",
+            // gridTemplateColumns: "100vw 100vw 100vw 100vw 30vw",
             transform:
-              direction === "y"
+              props.direction === "y"
                 ? `translateY(${currOffset}vh)`
                 : `translateX(${currOffset}vw)`,
-            ...sliderStyle,
+            ...props.sliderStyle,
           }}
         >
-          {children}
+          {props.children}
         </div>
       </div>
     </SliderContext.Provider>
   );
 };
 // TODO
-// - add option for units
-// - add attributes for further styling
 // - add support for direction

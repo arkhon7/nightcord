@@ -3,18 +3,11 @@ import { useEffect, useState } from "react";
 import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
 import { VscListFlat } from "react-icons/vsc";
 
-// import { SlideShow, Slide } from "../components/Slider.js";
-// import { CharacterSection } from "../components/CharacterSection";
-// import { IntroVideo } from "../components/IntroVideo";
-// import { Preloader } from "../components/Preloader";
-// import { Navbar } from "../components/NavBar";
-
 ////// TSX Refactor
 // components
-import { Slider, Slide } from "../components/Slider";
 import { Animation } from "../components/Animation";
-import { ShowCase } from "../layouts/ShowCaseSection";
-
+import { Slider, Slide } from "../components/Slider";
+import { ShowCase, BackDrop } from "../components/ShowCaseSection";
 // states hooks
 
 //////
@@ -101,21 +94,22 @@ export default function Home({ memberData }) {
       }}
     >
       <Slide
-        className="relative flex justify-center items-center w-screen h-screen"
+        className="relative flex justify-center items-center w-screen h-screen z-50"
         offset={0}
       >
-        <div className="fixed">SLIDER 0</div>
+        <div className="w-full h-full bg-slate-600">SLIDER 0</div>
       </Slide>
-      <Slide className="w-screen h-screen" offset={-100}>
+      <Slide className="relative w-screen h-screen z-40" offset={-100}>
         <Animation>
           <ShowCase />
+          <BackDrop />
         </Animation>
       </Slide>
       <Slide
-        className="flex justify-center items-center w-screen h-screen"
+        className="relative flex justify-center items-center w-screen h-screen z-50"
         offset={-200}
       >
-        <div className="fixed">SLIDER 2</div>
+        <div className="w-full h-full bg-slate-600">SLIDER 2</div>
       </Slide>
       <Slide
         className="flex justify-center items-center w-screen h-screen"

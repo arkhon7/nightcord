@@ -19,17 +19,17 @@ interface IAnimationElement {
 export const Animate: React.FC<React.PropsWithChildren<IAnimationElement>> = ({
   className,
   children,
-  key,
   renderAnim,
   persistAnim,
 }: IAnimationElement) => {
   const animation = useAnimation();
+  const id = React.useId();
 
   return (
     <AnimatePresence>
       {animation.active && (
         <motion.div
-          key={`${key}-parent`}
+          key={id}
           initial={renderAnim.initial}
           animate={renderAnim.animate}
           exit={renderAnim.exit}
@@ -37,7 +37,7 @@ export const Animate: React.FC<React.PropsWithChildren<IAnimationElement>> = ({
         >
           {persistAnim ? (
             <motion.div
-              key={`${key}-child`}
+              key={id}
               initial={persistAnim.initial}
               animate={persistAnim.animate}
               exit={persistAnim.exit}

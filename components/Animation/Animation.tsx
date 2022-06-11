@@ -1,5 +1,4 @@
 import React from "react";
-import { AnimatePresence } from "framer-motion";
 import { AnimationContext } from "./AnimationContext";
 
 interface IAnimationWrapper {
@@ -27,5 +26,3 @@ export const Animation: React.FC<
     </AnimationContext.Provider>
   );
 };
-
-// this component adds animation presence and context for the animation elements
