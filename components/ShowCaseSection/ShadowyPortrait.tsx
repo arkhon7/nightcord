@@ -1,6 +1,6 @@
 import React from "react";
 import { useShowCaseStore } from "../../app/store";
-import { useBackDropStore } from "../../app/store";
+import { useCharInfoStore } from "../../app/store";
 
 interface IShadowyPortrait {
   //   data: object; // add an interface for this
@@ -11,11 +11,11 @@ export const ShadowyPortrait: React.FC<IShadowyPortrait> = (
   props: IShadowyPortrait
 ) => {
   const closeShowCase = useShowCaseStore((state) => state.close);
-  const openBackDrop = useBackDropStore((state) => state.open);
+  const openCharInfo = useCharInfoStore((state) => state.open);
 
   const handleClick = () => {
     closeShowCase();
-    openBackDrop();
+    openCharInfo();
     // add func here to change char info state for showing details
   };
 

@@ -1,10 +1,5 @@
 import React from "react";
-
-interface ISlide {
-  className: string;
-  children: React.ReactNode;
-  offset: number;
-}
+import { ISlide } from "./Slider";
 
 export const Slide: React.FC<React.PropsWithChildren<ISlide>> = ({
   className,

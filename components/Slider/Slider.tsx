@@ -2,17 +2,18 @@ import React from "react";
 import { SliderContext } from "./SliderContext";
 import { throttle } from "./helper";
 
-interface ISlide extends React.ReactElement {
+export interface ISlide {
+  className: string;
+  children: React.ReactNode;
   offset: any;
+  props?: {
+    offset: any;
+  };
 }
 
-interface ISliderChildren extends React.ReactElement {
-  props: ISlide;
-}
-
-interface ISlider {
+export interface ISlider {
   className?: string;
-  children?: ISliderChildren;
+  children?: React.ReactNode;
   interval?: number;
   direction?: "x" | "y";
   sliderStyle?: object;
@@ -37,7 +38,8 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   // track offset
   React.useEffect(() => {
     const currSlide: ISlide = props.children[index];
-    console.log(currSlide);
+    console.log(currSlide.props.offset);
+
     setCurrOffset(currSlide.props.offset);
   }, [index]);
 

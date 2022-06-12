@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,9 +18,57 @@ body {
   margin: 0;
 }
 
+.burger {
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    caret-color: transparent;
+}
+
+.burger > div:nth-child(1),
+.burger > div:nth-child(2),
+.burger > div:nth-child(3) {
+  background-color: rgba(20,21,22,1);
+  height: 0.2rem;
+  width: 2rem;
+
+  transition: 0.5s;
+  transform-origin: center;
+}
+
+.burger > div:nth-child(2) {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.burger-inp {
+  display: none
+}
+
+.burger-inp:checked ~ .burger > div {
+  background-color: #925BB4ff;
+}
+
+.burger-inp:checked ~ .burger > div:nth-child(1) {
+  transform: translateY(0.5rem) rotate(45deg);
+}
+
+.burger-inp:checked ~ .burger > div:nth-child(2) {
+  transform: rotate3d(0, 1, 0, 90deg);
+}
+
+.burger-inp:checked ~ .burger > div:nth-child(3) {
+  transform: translateY(-0.5rem) rotate(-45deg);
+}
 
 
 
+.rhombus-clip {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  filter: blur(4px)
+}
 
 
 .char-box-shadow::before{
@@ -48,6 +94,10 @@ body {
   box-shadow: 0 -35vh 50vw  1vw rgba(20,21,22,1) inset;
   -webkit-box-shadow: 0 -35vh 50vw 1vw rgba(20,21,22,1) inset;
   -moz-box-shadow: 0 -35vh 50vw 1vw rgba(20,21,22,1) inset;
-  /* box-shadow: none; */
 
 }
+
+
+
+
+

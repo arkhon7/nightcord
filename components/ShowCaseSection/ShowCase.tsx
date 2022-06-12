@@ -20,7 +20,7 @@ export const ShowCase: React.FC = () => {
   const makeShowCasePersist = useShowCaseStore((state) => state.nowActive);
 
   React.useEffect(() => {
-    if (slider.index === 1 && showCaseBeenActive === false) {
+    if (slider.index === 2 && showCaseBeenActive === false) {
       openShowCase();
       makeShowCasePersist();
       animation.start();
@@ -52,10 +52,10 @@ export const ShowCase: React.FC = () => {
               transition: {
                 delay: backDropActive ? 0 : 1,
                 type: "spring",
-                mass: 3,
+                mass: 2,
                 duration: 3,
-                stiffness: 20,
-                bounce: 0.25,
+                stiffness: 25,
+                bounce: 0.5,
               },
             },
             exit: {
@@ -77,10 +77,10 @@ export const ShowCase: React.FC = () => {
               transition: {
                 delay: backDropActive ? 0 : 1,
                 type: "spring",
-                mass: 3,
+                mass: 2,
                 duration: 3,
-                stiffness: 20,
-                bounce: 0.25,
+                stiffness: 25,
+                bounce: 0.5,
               },
             },
             exit: {
@@ -102,10 +102,10 @@ export const ShowCase: React.FC = () => {
               transition: {
                 delay: backDropActive ? 0 : 1,
                 type: "spring",
-                mass: 3,
+                mass: 2,
                 duration: 3,
-                stiffness: 20,
-                bounce: 0.25,
+                stiffness: 25,
+                bounce: 0.5,
               },
             },
             exit: {
@@ -127,10 +127,10 @@ export const ShowCase: React.FC = () => {
               transition: {
                 delay: backDropActive ? 0 : 1,
                 type: "spring",
-                mass: 3,
+                mass: 2,
                 duration: 3,
-                stiffness: 20,
-                bounce: 0.25,
+                stiffness: 25,
+                bounce: 0.5,
               },
             },
             exit: {

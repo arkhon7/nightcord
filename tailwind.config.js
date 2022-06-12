@@ -22,8 +22,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        nightcord: ["Montserrat", "sans-serif"],
-        nightcordXL: ["Raleway", "sans-serif"],
+        nav: ["Raleway", "sans-serif"],
       },
     },
   },

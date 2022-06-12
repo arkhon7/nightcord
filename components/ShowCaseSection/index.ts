@@ -1,2 +1,2 @@
-export { BackDrop } from "./BackDrop";
+export { CharInfo } from "./CharInfo";
 export { ShowCase } from "./ShowCase";
