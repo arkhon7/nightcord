@@ -1,6 +1,7 @@
 import React from "react";
 import { SliderContext } from "./SliderContext";
 import { throttle } from "./helper";
+import { useSliderStore } from "../../app/store";
 
 export interface ISlide {
   className: string;
@@ -13,7 +14,7 @@ export interface ISlide {
 
 export interface ISlider {
   className?: string;
-  children?: React.ReactNode;
+  children?: any;
   interval?: number;
   direction?: "x" | "y";
   sliderStyle?: object;
@@ -35,17 +36,37 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   const [currOffset, setCurrOffset] = React.useState<number>(0);
   const [index, setIndex] = React.useState(0);
 
+  const getValidChildren = () => {
+    const validChildren = [];
+
+    React.Children.forEach(props.children, (c) => {
+      if (c.type.name !== undefined || c.type.name === "Slide") {
+        validChildren.push(c);
+      }
+    });
+    return validChildren;
+  };
+
+  const children = getValidChildren();
+
   // track offset
   React.useEffect(() => {
-    const currSlide: ISlide = props.children[index];
-    console.log(currSlide.props.offset);
-
+    const currSlide: ISlide = children[index];
     setCurrOffset(currSlide.props.offset);
   }, [index]);
 
+  const idx = useSliderStore((state) => state.index); // remove this when isolating this component
+
+  // remove this hook when isolating this component
+  React.useEffect(() => {
+    const currSlide: ISlide = children[idx];
+    setCurrOffset(currSlide.props.offset);
+    setIndex(idx);
+  }, [idx]);
+
   const next = () => {
     setIndex((index) => {
-      const maxIndex = React.Children.count(props.children) - 1;
+      const maxIndex = children.length - 1;
       if (index + 1 > maxIndex) {
         return index;
       } else {
@@ -64,11 +85,16 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
     });
   };
 
-  // for handling the wheel events function
+  const slideTo = (index: number) => {
+    setIndex(index);
+  };
+
+  // for handling the wheel events function (fix this on touch events)
   const changeSlideByWheel = (e: React.WheelEvent) => {
-    if (e.deltaY === -100) {
+    console.log(e.deltaY);
+    if (e.deltaY < 0) {
       prev();
-    } else {
+    } else if (e.deltaY >= 1) {
       next();
     }
   };
@@ -78,7 +104,6 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
     const minimum = 50;
     if (endPos.y === null || endPos.x === null) return;
 
-    console.log(startPos.y, endPos.y, startPos.y - endPos.y);
     if (startPos.y - endPos.y > minimum) {
       next();
     } else if (startPos.y - endPos.y < -minimum) {
@@ -101,6 +126,7 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
 
   // Event handlers
   const handleWheelEvent = (e: React.WheelEvent<HTMLDivElement>) => {
+    console.log(e);
     throttledWheelSlide.current(e);
   };
 
@@ -123,7 +149,9 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   // helpers
 
   return (
-    <SliderContext.Provider value={{ index: index, prev: prev, next: next }}>
+    <SliderContext.Provider
+      value={{ index: index, prev: prev, next: next, slideTo: slideTo }}
+    >
       <div
         className={props.className}
         onWheel={handleWheelEvent}
@@ -135,7 +163,6 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
         <div
           style={{
             display: "grid",
-            // gridTemplateColumns: "100vw 100vw 100vw 100vw 30vw",
             transform:
               props.direction === "y"
                 ? `translateY(${currOffset}vh)`
@@ -150,4 +177,3 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   );
 };
 // TODO
-// - add support for direction

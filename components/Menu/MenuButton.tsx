@@ -1,11 +1,7 @@
 import React from "react";
-// import { BsJustify, BsXLg } from "react-icons/bs";
-import { useSlider } from "../Slider";
 import { useMenuStore } from "../../app/store";
-// import { Burger } from "./Burger";
 
 export const MenuButton: React.FC = () => {
-  const slider = useSlider();
   const isActive = useMenuStore((state) => state.isActive);
   const toggleMenu = useMenuStore((state) => state.toggleMenu);
 
@@ -17,19 +13,25 @@ export const MenuButton: React.FC = () => {
 
   console.log(isActive);
   return (
-    <div>
-      <input
-        type="checkbox"
-        id="btn-proxy"
-        className="burger-inp"
-        onChange={handleToggleMenu}
-        checked={isActive}
-      />
-      <label id="burger" htmlFor="btn-proxy" className="burger">
-        <div></div>
-        <div></div>
-        <div></div>
-      </label>
+    <div className="absolute z-30 w-full flex justify-end visible md:invisible">
+      <div
+        className={`bg-opacity-50 p-[0.5rem] rounded-md transition duration-300 m-2 ${
+          isActive ? "transparent" : "bg-nightcord-110"
+        }`}
+      >
+        <input
+          type="checkbox"
+          id="btn-proxy"
+          className="burger-inp"
+          onChange={handleToggleMenu}
+          checked={isActive}
+        />
+        <label id="burger" htmlFor="btn-proxy" className="burger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </label>
+      </div>
     </div>
   );
 };

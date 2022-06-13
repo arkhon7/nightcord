@@ -17,6 +17,8 @@ import { Slide } from "../components/Slider";
 import { SmoothSlider } from "../layouts/SmoothSliderLayout";
 import { ShowCase, CharInfo } from "../components/ShowCaseSection";
 import { MenuButton } from "../components/Menu/MenuButton";
+import { Menu } from "../components/Menu/Menu";
+import { NavBar } from "../components/NavBar";
 
 //////
 
@@ -91,21 +93,13 @@ export async function getStaticProps() {
 
 export default function Home() {
   return (
-    <div className="relative w-screen h-screen">
+    <div className="relative w-screen h-screen overflow-hidden">
+      <NavBar />
+      <MenuButton />
+      <Menu />
+
       <SmoothSlider>
         <Slide className="relative w-screen h-screen z-50" offset={0}>
-          <nav className="absolute flex justify-between items-center z-30 w-screen h-[50px] p-3">
-            <div className="flex items-center w-[120px] h-full">
-              <div className="w-[18px] h-[18px] rhombus-clip bg-nightcord-30 mr-2"></div>
-              <div className="font-nav text-sm text-center flex justify-center items-center  sm:text-lg">
-                NIGHTCORD
-              </div>
-            </div>
-            {/* <div className="relative w-[50px] h-[50px]">
-              <BsJustify className="absolute w-[30px] h-[30px] translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%]" />
-            </div> */}
-            <MenuButton />
-          </nav>
           <div className="absolute w-full h-full overflow-hidden flex justify-center items-center z-20">
             <video
               src="./aishite.mp4"
@@ -117,7 +111,7 @@ export default function Home() {
           </div>
         </Slide>
         <Slide className="relative w-screen h-screen z-40" offset={-100}>
-          <div className="w-full h-full">SLIDER 2</div>
+          <div className="w-full h-full text-nightcord-60">ABOUT</div>
         </Slide>
         <Slide
           className="relative flex justify-center items-center w-screen h-screen z-50"
@@ -132,13 +126,17 @@ export default function Home() {
           className="flex justify-center items-center w-screen h-screen"
           offset={-300}
         >
-          <div className="fixed">SLIDER 3</div>
+          <div className="w-full h-full text-nightcord-60">
+            SLIDER 4 UPLOADS
+          </div>
         </Slide>
         <Slide
           className="flex justify-center items-center w-screen h-[30vh]"
           offset={-330}
         >
-          <div className="fixed">SLIDER 4</div>
+          <div className="w-full h-full text-nightcord-60">
+            SLIDER 5 CREDITS
+          </div>
         </Slide>
       </SmoothSlider>
     </div>

@@ -41,7 +41,7 @@ export const ShowCase: React.FC = () => {
         showCaseActive ? "bg-nightcord-110" : "delay-1000 transparent"
       }`}
     >
-      <div className="flex w-full gap-4 h-full justify-center items-center p-4 lg:w-[1024px]">
+      <div className="flex w-full gap-4 h-full justify-center items-center p-4 lg:w-[1024px] invisible md:visible">
         <Animate
           className="flex w-full h-full char-box-shadow pointer-events-auto"
           renderAnim={{

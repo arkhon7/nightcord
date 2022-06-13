@@ -35,5 +35,5 @@ yarn-error.log*
 .vscode
 
 # dev
-dev.notes.txt
+*.notes.txt
 /legacy_code

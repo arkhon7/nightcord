@@ -1,5 +1,5 @@
 import React from "react";
-import { ISlide } from "./Slider";
+import { ISlide } from "../../components/Slider";
 
 export const Slide: React.FC<React.PropsWithChildren<ISlide>> = ({
   className,

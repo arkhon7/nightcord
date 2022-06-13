@@ -1,6 +1,5 @@
 import React from "react";
 import { Slider } from "../../components/Slider";
-
 // this layout shows the styles to the main slider, helpful for parallax effects
 
 interface ISmoothSlider {

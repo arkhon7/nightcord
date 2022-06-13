@@ -4,6 +4,7 @@ export interface ISliderContext {
   index: number;
   next: () => void;
   prev: () => void;
+  slideTo: (index: number) => void;
 }
 
 export const SliderContext: React.Context<ISliderContext> =
@@ -11,6 +12,7 @@ export const SliderContext: React.Context<ISliderContext> =
     index: 0,
     prev: null,
     next: null,
+    slideTo: null,
   });
 
 export const useSlider = (): ISliderContext => {
