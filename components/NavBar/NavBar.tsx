@@ -5,7 +5,7 @@ export const NavBar = () => {
   const setIndex = useSliderStore((state) => state.setIndex);
 
   return (
-    <nav className="group invisible md:visible absolute flex justify-center items-center z-10 w-full p-2">
+    <nav className="group invisible md:visible absolute flex justify-center items-center z-30 w-full p-2">
       {/* <div className="flex items-center w-[120px] h-full">
         <div className="w-[20px] h-[20px] rhombus-clip bg-nightcord-30 mr-2"></div>
         <div className="font-nav text-sm text-center flex justify-center items-center sm:text-lg">

@@ -30,9 +30,9 @@ export const Animate: React.FC<React.PropsWithChildren<IAnimationElement>> = ({
       {animation.active && (
         <motion.div
           key={id}
-          initial={renderAnim.initial}
-          animate={renderAnim.animate}
-          exit={renderAnim.exit}
+          initial={renderAnim!.initial}
+          animate={renderAnim!.animate}
+          exit={renderAnim!.exit}
           className={className}
         >
           {persistAnim ? (

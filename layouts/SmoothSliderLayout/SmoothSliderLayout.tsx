@@ -9,7 +9,7 @@ interface ISmoothSlider {
 export const SmoothSlider = (props: ISmoothSlider) => {
   return (
     <Slider
-      className="relative w-screen h-screen bg-nightcord-110"
+      className="absolute w-screen h-screen z-30"
       interval={1000}
       direction="y"
       sliderStyle={{

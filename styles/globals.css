@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap');
+
+
+@font-face {
+  font-family: proxima-nova;
+  src: url(/font/proxima-nova.otf);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -86,10 +93,6 @@ body {
   -moz-box-shadow: 0 -45vh 50vw 2vw rgba(20,21,22,1) inset;
   width: 105%;
   height: 100%;
-  
-  
-
-
   transition: all;
   transition-duration: 1s;
 }
@@ -103,6 +106,46 @@ body {
 
 }
 
+/* 
+
+
+*/
+
+
+
+.name-font-val {
+  --tw-fluid-font-min: 13;
+  --tw-fluid-font-max: 15;
+  --tw-fluid-font-min-css: 13px;
+  --tw-fluid-font-min-viewport: 360;
+  --tw-fluid-font-max-viewport: 1440;
+  --tw-fluid-font-min-viewport-css: 360px;
+}
+
+.cphrase-font-val {
+  --tw-fluid-font-min: 40;
+  --tw-fluid-font-max: 52;
+  --tw-fluid-font-min-css: 40px;
+  --tw-fluid-font-min-viewport: 360;
+  --tw-fluid-font-max-viewport: 1440;
+  --tw-fluid-font-min-viewport-css: 360px;
+}
+
+.readbtn-font-val {
+  --tw-fluid-font-min: 13;
+  --tw-fluid-font-max: 15;
+  --tw-fluid-font-min-css: 13px;
+  --tw-fluid-font-min-viewport: 360;
+  --tw-fluid-font-max-viewport: 1440;
+  --tw-fluid-font-min-viewport-css: 360px;
+}
+
+.fluid-font {
+  font-size: calc(var(--tw-fluid-font-min-css) + 
+  (var(--tw-fluid-font-max) - var(--tw-fluid-font-min)) * 
+  ((100vw - var(--tw-fluid-font-min-viewport-css)) / 
+  (var(--tw-fluid-font-max-viewport) - var(--tw-fluid-font-min-viewport))));
+}
 
 
 

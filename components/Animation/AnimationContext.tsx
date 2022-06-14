@@ -9,8 +9,8 @@ interface IAnimationContext {
 export const AnimationContext: React.Context<IAnimationContext> =
   React.createContext<IAnimationContext>({
     active: false,
-    start: null,
-    stop: null,
+    start: () => {},
+    stop: () => {},
   });
 
 export const useAnimation = (): IAnimationContext => {

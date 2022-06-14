@@ -19,6 +19,7 @@ import { ShowCase, CharInfo } from "../components/ShowCaseSection";
 import { MenuButton } from "../components/Menu/MenuButton";
 import { Menu } from "../components/Menu/Menu";
 import { NavBar } from "../components/NavBar";
+import { Intro } from "../components/IntroSection";
 
 //////
 
@@ -97,18 +98,19 @@ export default function Home() {
       <NavBar />
       <MenuButton />
       <Menu />
+      <div className="absolute w-screen h-screen overflow-hidden flex justify-center items-center z-20">
+        <video
+          src="./aishite.mp4"
+          muted
+          autoPlay
+          loop
+          className="w-full h-full object-cover"
+        ></video>
+      </div>
 
       <SmoothSlider>
         <Slide className="relative w-screen h-screen z-50" offset={0}>
-          <div className="absolute w-full h-full overflow-hidden flex justify-center items-center z-20">
-            <video
-              src="./aishite.mp4"
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            ></video>
-          </div>
+          <Intro />
         </Slide>
         <Slide className="relative w-screen h-screen z-40" offset={-100}>
           <div className="w-full h-full text-nightcord-60">ABOUT</div>

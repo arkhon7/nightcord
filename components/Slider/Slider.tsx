@@ -22,22 +22,22 @@ export interface ISlider {
 }
 
 type Point = {
-  x: number;
-  y: number;
+  x: number | null;
+  y: number | null;
 };
 
 export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   props: ISlider
 ) => {
   // for tracking the pointer down event
-  const [startPos, setStartPos] = React.useState<Point>({ x: null, y: null });
-  const [endPos, setEndPos] = React.useState<Point>({ x: null, y: null });
+  const [startPos, setStartPos] = React.useState<Point>({ x: 0, y: 0 });
+  const [endPos, setEndPos] = React.useState<Point>({ x: 0, y: 0 });
 
   const [currOffset, setCurrOffset] = React.useState<number>(0);
   const [index, setIndex] = React.useState(0);
 
   const getValidChildren = () => {
-    const validChildren = [];
+    const validChildren: ISlide[] = [];
 
     React.Children.forEach(props.children, (c) => {
       if (c.type.name !== undefined || c.type.name === "Slide") {
@@ -48,28 +48,31 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   };
 
   const children = getValidChildren();
+  const sliderStoreIndex = useSliderStore((state) => state.index); // remove this when isolating this component
+  const setSliderStoreIndex = useSliderStore((state) => state.setIndex);
 
   // track offset
   React.useEffect(() => {
     const currSlide: ISlide = children[index];
-    setCurrOffset(currSlide.props.offset);
+    if (currSlide.props !== undefined) {
+      setCurrOffset(currSlide.props.offset);
+      setSliderStoreIndex(index);
+    }
   }, [index]);
-
-  const idx = useSliderStore((state) => state.index); // remove this when isolating this component
 
   // remove this hook when isolating this component
   React.useEffect(() => {
-    const currSlide: ISlide = children[idx];
-    setCurrOffset(currSlide.props.offset);
-    setIndex(idx);
-  }, [idx]);
+    setIndex(sliderStoreIndex);
+  }, [sliderStoreIndex]);
 
   const next = () => {
     setIndex((index) => {
       const maxIndex = children.length - 1;
       if (index + 1 > maxIndex) {
+        setSliderStoreIndex(index);
         return index;
       } else {
+        setSliderStoreIndex(index + 1);
         return index + 1;
       }
     });
@@ -78,8 +81,10 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   const prev = () => {
     setIndex((index) => {
       if (index - 1 < 0) {
+        setSliderStoreIndex(0);
         return 0;
       } else {
+        setSliderStoreIndex(index - 1);
         return index - 1;
       }
     });
@@ -91,7 +96,6 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
 
   // for handling the wheel events function (fix this on touch events)
   const changeSlideByWheel = (e: React.WheelEvent) => {
-    console.log(e.deltaY);
     if (e.deltaY < 0) {
       prev();
     } else if (e.deltaY >= 1) {
@@ -101,13 +105,15 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
 
   // for handling the touch events
   const changeSlideByPointer = (startPos: Point, endPos: Point) => {
-    const minimum = 50;
+    const minimum = 30;
     if (endPos.y === null || endPos.x === null) return;
 
-    if (startPos.y - endPos.y > minimum) {
-      next();
-    } else if (startPos.y - endPos.y < -minimum) {
-      prev();
+    if (startPos.y !== null) {
+      if (startPos.y - endPos.y > minimum) {
+        next();
+      } else if (startPos.y - endPos.y < -minimum) {
+        prev();
+      }
     }
   };
 
@@ -126,7 +132,6 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
 
   // Event handlers
   const handleWheelEvent = (e: React.WheelEvent<HTMLDivElement>) => {
-    console.log(e);
     throttledWheelSlide.current(e);
   };
 

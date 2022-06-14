@@ -38,7 +38,11 @@ export const ShowCase: React.FC = () => {
   return (
     <div
       className={`absolute flex justify-center items-center w-full h-full transition-all duration-[1s] z-30 pointer-events-none ${
-        showCaseActive ? "bg-nightcord-110" : "delay-1000 transparent"
+        showCaseActive
+          ? "bg-nightcord-110"
+          : showCaseBeenActive
+          ? "delay-1000 transparent"
+          : "bg-nightcord-110"
       }`}
     >
       <div className="flex w-full gap-4 h-full justify-center items-center p-4 lg:w-[1024px] invisible md:visible">

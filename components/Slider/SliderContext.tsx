@@ -10,9 +10,9 @@ export interface ISliderContext {
 export const SliderContext: React.Context<ISliderContext> =
   React.createContext<ISliderContext>({
     index: 0,
-    prev: null,
-    next: null,
-    slideTo: null,
+    prev: () => {},
+    next: () => {},
+    slideTo: () => {},
   });
 
 export const useSlider = (): ISliderContext => {

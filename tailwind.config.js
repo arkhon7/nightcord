@@ -1,3 +1,31 @@
+const plugin = require("tailwindcss/plugin");
+
+const textShadow = plugin(function ({ addUtilities }) {
+  addUtilities({
+    ".text-shadow-xs-10": {
+      "text-shadow": "0px 0px 2px #141516",
+    },
+    ".text-shadow-sm-10": {
+      "text-shadow": "0px 0px 4px #141516",
+    },
+    ".text-shadow-md-10": {
+      "text-shadow": "0px 0px 8px #141516",
+    },
+    ".text-shadow-lg-10": {
+      "text-shadow": "0px 0px 16px #141516",
+    },
+  });
+});
+
+const fluidFont = plugin(function ({ addUtilities, matchUtilities }) {
+  addUtilities({
+    ".fluid-font": {
+      "font-size":
+        "calc(var(--tw-fluid-font-min-size) + (var(--tw-fluid-font-max-size) - var(--tw-fluid-font-min-size)) * ((100vw - var(--tw-fluid-font-vw-min-size)) / (1440 - 360)));",
+    },
+  });
+});
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -22,8 +50,16 @@ module.exports = {
         },
       },
       fontFamily: {
-        nav: ["Raleway", "sans-serif"],
+        raleway: ["Raleway", "sans-serif"],
+        proxima: ["proxima-nova", "sans-serif"],
       },
+    },
+    screens: {
+      sm: "576px",
+      md: "768px",
+      lg: "992px",
+      xl: "1200px",
+      "2xl": "1400px",
     },
   },
   variants: {
@@ -31,5 +67,6 @@ module.exports = {
       display: ["group-hover"],
     },
   },
-  plugins: [require("tailwindcss-animation")],
+
+  plugins: [require("tailwindcss-animation"), textShadow],
 };
