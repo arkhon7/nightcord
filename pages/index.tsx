@@ -11,108 +11,106 @@ import {
 import { VscListFlat } from "react-icons/vsc";
 
 ////// TSX Refactor
-// components
-import { Animation } from "../components/Animation";
-import { Slide } from "../components/Slider";
+// layouts
 import { SmoothSlider } from "../layouts/SmoothSliderLayout";
+import { Parallax } from "../layouts/ParallaxLayout";
+
+// components
 import { ShowCase, CharInfo } from "../components/ShowCaseSection";
-import { MenuButton } from "../components/Menu/MenuButton";
-import { Menu } from "../components/Menu/Menu";
+import { Menu, MenuButton } from "../components/Menu";
+import { Animate, Animation } from "../components/Animation";
 import { NavBar } from "../components/NavBar";
+import { Slide } from "../components/Slider";
 import { Intro } from "../components/IntroSection";
+import { Video } from "../components/Video";
+import { ParallaxObjects } from "../components/ParallaxObjects";
 
 //////
 
-export async function getStaticProps() {
-  const memberData = {
-    mizuki: {
-      firstName: "Mizuki",
-      lastName: "Akiyama",
-      voiceActor: "Satou Hinata",
-      introVideoLink: "https://www.youtube.com/embed/u7vu0ubr_nM",
-      position: "MV Creator",
-      gender: "Unknown",
-      birthday: "August 27",
-      height: "163 cm",
-      school: "Kamiyama High School 1-A",
-      image: "/mizuki.png",
-      imageFull: "/mizuki-full.png",
-      video: "/mizuki_intro.mp4",
-    },
-    ena: {
-      firstName: "Ena",
-      lastName: "Shinonome",
-      voiceActor: "Suzuki Minori",
-      introVideoLink: "https://www.youtube.com/embed/u7vu0ubr_nM",
-      position: "Illustrator",
-      gender: "Female",
-      birthday: "April 30",
-      height: "158 cm",
-      school: "Kamiyama High School 2-D",
-      image: "/ena.png",
-      imageFull: "/mizuki-full.png",
-      video: "/ena_intro.mp4",
-    },
-    mafuyu: {
-      firstName: "Mafuyu",
-      lastName: "Asahina",
-      voiceActor: "Satou Hinata",
-      introVideoLink: "https://www.youtube.com/embed/u7vu0ubr_nM",
-      position: "MV Creator",
-      gender: "Unknown",
-      birthday: "August 27",
-      height: "163 cm",
-      school: "Kamiyama High School 1-A",
-      image: "/mafuyu.png",
-      imageFull: "/mizuki-full.png",
-      video: "/mafuyu_intro.mp4",
-      // TODO
-    },
-    kanade: {
-      firstName: "Kanade",
-      lastName: "Akiyama",
-      voiceActor: "Satou Hinata",
-      introVideoLink: "https://www.youtube.com/embed/u7vu0ubr_nM",
-      position: "MV Creator",
-      gender: "Unknown",
-      birthday: "August 27",
-      height: "163 cm",
-      school: "Kamiyama High School 1-A",
-      image: "/kanade.png",
-      imageFull: "/mizuki-full.png",
-      video: "/kanade_intro.mp4",
-      // TODO
-    },
-  };
-
-  return {
-    props: {
-      memberData,
-    },
-  };
-}
+import Head from "next/head";
 
 export default function Home() {
+  // const index = useSliderStore((state) => state.index);
+
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-screen h-screen overflow-hidden bg-nightcord-110">
+      <Head>
+        <title>Nightcord</title>
+        <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="196x196"
+          href="/favicon-192.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="160x160"
+          href="/favicon-160.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="96x96"
+          href="/favicon-96.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="64x64"
+          href="/favicon-64.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16.png"
+        />
+        <link rel="apple-touch-icon" href="/favicon-57.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon-144.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon-60.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon-120.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon-76.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon-152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
+        <meta name="msapplication-TileColor" content="#FFFFFF" />
+        <meta name="msapplication-TileImage" content="/favicon-144.png" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+      </Head>
+
+      {/* <div className="absolute w-full z-[999]">
+        <div className="font-proxima text-nightcord-70 font-normal fluid-font nav-btn-font-val ">
+          Nightcord
+          <img
+            src="./nightcord_logo.svg"
+            className="w-10 h-10 text-nightcord-20"
+          />
+          at 25:00
+        </div>
+      </div> */}
       <NavBar />
       <MenuButton />
       <Menu />
-      <div className="absolute w-screen h-screen overflow-hidden flex justify-center items-center z-20">
-        <video
-          src="./aishite.mp4"
-          muted
-          autoPlay
-          loop
-          className="w-full h-full object-cover"
-        ></video>
-      </div>
-
+      <Parallax>
+        <Animation>
+          <ParallaxObjects />
+        </Animation>
+      </Parallax>
       <SmoothSlider>
-        <Slide className="relative w-screen h-screen z-50" offset={0}>
+        <Slide className="relative w-screen h-screen z-50 " offset={0}>
           <Intro />
+          <Video />
         </Slide>
-        <Slide className="relative w-screen h-screen z-40" offset={-100}>
+        <Slide className={`relative w-screen h-screen z-40`} offset={-100}>
           <div className="w-full h-full text-nightcord-60">ABOUT</div>
         </Slide>
         <Slide

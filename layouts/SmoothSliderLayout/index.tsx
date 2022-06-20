@@ -1,1 +1,1 @@
-export { SmoothSlider } from "./SmoothSliderLayout";
+export { SmoothSlider } from "./SmoothSlider";

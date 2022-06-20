@@ -35,17 +35,19 @@ export const ShowCase: React.FC = () => {
     }
   }, [showCaseActive]);
 
+  // ${
+  //   showCaseActive
+  //     ? "bg-nightcord-110"
+  //     : showCaseBeenActive
+  //     ? "delay-1000 transparent"
+  //     : "bg-nightcord-110"
+  // }
+
   return (
     <div
-      className={`absolute flex justify-center items-center w-full h-full transition-all duration-[1s] z-30 pointer-events-none ${
-        showCaseActive
-          ? "bg-nightcord-110"
-          : showCaseBeenActive
-          ? "delay-1000 transparent"
-          : "bg-nightcord-110"
-      }`}
+      className={`absolute flex justify-center items-center w-full h-full transition-all duration-[1s] z-30 pointer-events-none`}
     >
-      <div className="flex w-full gap-4 h-full justify-center items-center p-4 lg:w-[1024px] invisible md:visible">
+      <div className="flex w-full gap-4 h-full justify-center items-center p-4 max-w-[992px] invisible md:visible">
         <Animate
           className="flex w-full h-full char-box-shadow pointer-events-auto"
           renderAnim={{

@@ -18,6 +18,7 @@ export interface ISlider {
   interval?: number;
   direction?: "x" | "y";
   sliderStyle?: object;
+  sliderClass?: string;
   style?: object;
 }
 
@@ -33,7 +34,8 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   const [startPos, setStartPos] = React.useState<Point>({ x: 0, y: 0 });
   const [endPos, setEndPos] = React.useState<Point>({ x: 0, y: 0 });
 
-  const [currOffset, setCurrOffset] = React.useState<number>(0);
+  // const [currOffset, setCurrOffset] = React.useState<number>(0);
+
   const [index, setIndex] = React.useState(0);
 
   const getValidChildren = () => {
@@ -48,8 +50,10 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   };
 
   const children = getValidChildren();
-  const sliderStoreIndex = useSliderStore((state) => state.index); // remove this when isolating this component
+  const sliderStoreIndex = useSliderStore((state) => state.index);
+  const sliderCurrOffset = useSliderStore((state) => state.currOffset);
   const setSliderStoreIndex = useSliderStore((state) => state.setIndex);
+  const setCurrOffset = useSliderStore((state) => state.setCurrOffset);
 
   // track offset
   React.useEffect(() => {
@@ -170,10 +174,11 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
             display: "grid",
             transform:
               props.direction === "y"
-                ? `translateY(${currOffset}vh)`
-                : `translateX(${currOffset}vw)`,
+                ? `translateY(${sliderCurrOffset}vh)`
+                : `translateX(${sliderCurrOffset}vw)`,
             ...props.sliderStyle,
           }}
+          className={props.sliderClass}
         >
           {props.children}
         </div>

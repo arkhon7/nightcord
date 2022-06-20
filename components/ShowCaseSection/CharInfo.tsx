@@ -16,7 +16,7 @@ export const CharInfo: React.FC = () => {
     <div className="w-full h-full">
       <div
         className={`w-full h-full transition-all duration-1000 ${
-          charInfoActive ? "opacity-100" : "opacity-0"
+          charInfoActive ? "delay-1000 opacity-100" : "opacity-0"
         }`}
       >
         <motion.div

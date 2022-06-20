@@ -1,0 +1,1 @@
+export { ParallaxObjects } from "./ParallaxObjects";

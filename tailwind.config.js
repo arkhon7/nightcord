@@ -17,15 +17,6 @@ const textShadow = plugin(function ({ addUtilities }) {
   });
 });
 
-const fluidFont = plugin(function ({ addUtilities, matchUtilities }) {
-  addUtilities({
-    ".fluid-font": {
-      "font-size":
-        "calc(var(--tw-fluid-font-min-size) + (var(--tw-fluid-font-max-size) - var(--tw-fluid-font-min-size)) * ((100vw - var(--tw-fluid-font-vw-min-size)) / (1440 - 360)));",
-    },
-  });
-});
-
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",

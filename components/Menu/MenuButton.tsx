@@ -13,7 +13,7 @@ export const MenuButton: React.FC = () => {
 
   console.log(isActive);
   return (
-    <div className="absolute z-[999] w-full flex justify-end visible md:invisible">
+    <div className="absolute z-[999] w-full flex justify-end visible sm:invisible">
       <div
         className={`bg-opacity-70 p-[0.5rem] rounded-md transition duration-300 m-2 ${
           isActive ? "transparent" : "bg-nightcord-110"
