@@ -52,8 +52,11 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
   const children = getValidChildren();
   const sliderStoreIndex = useSliderStore((state) => state.index);
   const sliderCurrOffset = useSliderStore((state) => state.currOffset);
+  const doneFirst = useSliderStore((state) => state.doneFirst);
+
   const setSliderStoreIndex = useSliderStore((state) => state.setIndex);
   const setCurrOffset = useSliderStore((state) => state.setCurrOffset);
+  const setDoneFirst = useSliderStore((state) => state.setDoneFirst);
 
   // track offset
   React.useEffect(() => {
@@ -80,6 +83,9 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
         return index + 1;
       }
     });
+    if (doneFirst !== true) {
+      setDoneFirst();
+    }
   };
 
   const prev = () => {
@@ -92,6 +98,9 @@ export const Slider: React.FC<React.PropsWithChildren<ISlider>> = (
         return index - 1;
       }
     });
+    if (doneFirst !== true) {
+      setDoneFirst();
+    }
   };
 
   const slideTo = (index: number) => {

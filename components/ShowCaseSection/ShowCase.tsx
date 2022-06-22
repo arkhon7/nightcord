@@ -47,9 +47,9 @@ export const ShowCase: React.FC = () => {
     <div
       className={`absolute flex justify-center items-center w-full h-full transition-all duration-[1s] z-30 pointer-events-none`}
     >
-      <div className="flex w-full gap-4 h-full justify-center items-center p-4 max-w-[992px] invisible md:visible">
+      <div className="flex w-full h-full gap-8 justify-center items-center p-4 max-w-[992px] invisible md:visible">
         <Animate
-          className="flex w-full h-full char-box-shadow pointer-events-auto"
+          className="flex w-[13vw] h-[80vh] pointer-events-auto"
           renderAnim={{
             initial: { opacity: 0, y: "50vh" },
             animate: {
@@ -74,7 +74,7 @@ export const ShowCase: React.FC = () => {
           <ShadowyPortrait src="./kanade.png" />
         </Animate>
         <Animate
-          className="flex w-full h-full char-box-shadow pointer-events-auto"
+          className="flex w-[13vw] h-[80vh] pointer-events-auto"
           renderAnim={{
             initial: { opacity: 0, y: "-50vh" },
             animate: {
@@ -99,7 +99,7 @@ export const ShowCase: React.FC = () => {
           <ShadowyPortrait src="./mafuyu.png" />
         </Animate>
         <Animate
-          className="flex w-full h-full char-box-shadow pointer-events-auto"
+          className="flex w-[13vw] h-[80vh] pointer-events-auto"
           renderAnim={{
             initial: { opacity: 0, y: "50vh" },
             animate: {
@@ -124,7 +124,7 @@ export const ShowCase: React.FC = () => {
           <ShadowyPortrait src="./ena.png" />
         </Animate>
         <Animate
-          className="flex w-full h-full char-box-shadow pointer-events-auto"
+          className="flex w-[13vw] h-[80vh] pointer-events-auto"
           renderAnim={{
             initial: { opacity: 0, y: "-50vh" },
             animate: {
@@ -147,6 +147,12 @@ export const ShowCase: React.FC = () => {
           }}
         >
           <ShadowyPortrait src="./mizuki.png" />
+          {/* <div className="flex justify-center items-center w-full h-full group">
+            <div className="relative w-full h-full">
+              <div className="absolute w-full h-full bg-nightcord-20 clip-rhombus"></div>
+              <div className="absolute group-hover:-bottom-5 w-full h-full bg-nightcord-70 clip-rhombus z-[-1]"></div>
+            </div>
+          </div> */}
         </Animate>
       </div>
     </div>

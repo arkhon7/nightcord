@@ -9,7 +9,7 @@ export const Intro = () => {
   };
 
   return (
-    <div className="absolute w-full h-full bg-nightcord-110 bg-opacity-70 z-30 flex justify-center items-center">
+    <div className="absolute w-full h-full bg-nightcord-110 bg-opacity-90 z-30 flex justify-center items-center">
       <div className="flex flex-col w-full justify-center items-center max-w-[288px] sm:max-w-[384px] md:max-w-[496px]">
         <div className="">
           <div className="font-proxima font-bold text-nightcord-70 fluid-font-val fluid-font name-font-val">

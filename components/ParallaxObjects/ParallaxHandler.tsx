@@ -17,6 +17,7 @@ export const ParallaxHandler: React.FC<
 
   return (
     <div
+      className={props.className}
       style={{
         transitionDuration: "2s",
         transform: `translateY(${currOffset * props.yOffset}px) translateX(${
@@ -24,7 +25,6 @@ export const ParallaxHandler: React.FC<
         }px)`,
         ...props.style,
       }}
-      className={props.className}
     >
       {props.children}
     </div>
