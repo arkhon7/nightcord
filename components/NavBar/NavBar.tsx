@@ -14,9 +14,7 @@ export const NavBar = () => {
             setIndex(1);
             setDoneFirst();
           }}
-          className={`transition duration-500 text-nightcord-70 font-proxima font-normal nav-btn-font-val fluid-font  ${
-            index == 0 ? "opacity-50" : "opacity-0"
-          }  hover:opacity-100 flex justify-center mx-[2vw] max-w-[150px]`}
+          className={`transition duration-500 text-nightcord-70 font-proxima font-normal nav-btn-font-val fluid-font opacity-50 hover:opacity-100 flex justify-center mx-[2vw] max-w-[150px]`}
         >
           <div className="nav-btn">about</div>
         </a>
@@ -25,9 +23,7 @@ export const NavBar = () => {
             setIndex(2);
             setDoneFirst();
           }}
-          className={`transition duration-500 text-nightcord-70 font-proxima font-normal nav-btn-font-val fluid-font  ${
-            index == 0 ? "opacity-50" : "opacity-0"
-          }  hover:opacity-100 flex justify-center mx-[2vw] max-w-[150px]`}
+          className={`transition duration-500 text-nightcord-70 font-proxima font-normal nav-btn-font-val fluid-font opacity-50 hover:opacity-100 flex justify-center mx-[2vw] max-w-[150px]`}
         >
           <div className="nav-btn">talents</div>
         </a>
@@ -36,9 +32,7 @@ export const NavBar = () => {
             setIndex(3);
             setDoneFirst();
           }}
-          className={`transition duration-500 text-nightcord-70 font-proxima font-normal nav-btn-font-val fluid-font  ${
-            index == 0 ? "opacity-50" : "opacity-0"
-          }  hover:opacity-100 flex justify-center mx-[2vw] max-w-[150px]`}
+          className={`transition duration-500 text-nightcord-70 font-proxima font-normal nav-btn-font-val fluid-font opacity-50 hover:opacity-100 flex justify-center mx-[2vw] max-w-[150px]`}
         >
           <div className="nav-btn">uploads</div>
         </a>
@@ -47,11 +41,9 @@ export const NavBar = () => {
             setIndex(4);
             setDoneFirst();
           }}
-          className={`transition duration-500 text-nightcord-70 font-proxima font-normal nav-btn-font-val fluid-font  ${
-            index == 0 ? "opacity-50" : "opacity-0"
-          }  hover:opacity-100 flex justify-center mx-[2vw] max-w-[150px]`}
+          className={`transition duration-500 text-nightcord-70 font-proxima font-normal nav-btn-font-val fluid-font opacity-50 hover:opacity-100 flex justify-center mx-[2vw] max-w-[150px]`}
         >
-          <div className="nav-btn">credits</div>
+          <div className="nav-btn">gallery</div>
         </a>
       </nav>
     </div>

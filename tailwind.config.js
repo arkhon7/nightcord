@@ -91,6 +91,8 @@ module.exports = {
       fontFamily: {
         raleway: ["Raleway", "sans-serif"],
         proxima: ["proxima-nova", "sans-serif"],
+        brandon: ["brandon", "sans-serif"],
+        "brandon-thin": ["brandon-thin", "sans-serif"],
       },
     },
     screens: {

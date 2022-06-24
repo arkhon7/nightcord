@@ -47,16 +47,16 @@ export const ShowCase: React.FC = () => {
     <div
       className={`absolute flex justify-center items-center w-full h-full transition-all duration-[1s] z-30 pointer-events-none`}
     >
-      <div className="flex w-full h-full gap-8 justify-center items-center p-4 max-w-[992px] invisible md:visible">
+      <div className="flex w-full h-full gap-8 justify-center items-center p-4">
         <Animate
-          className="flex w-[13vw] h-[80vh] pointer-events-auto"
+          className="pointer-events-auto w-[13vw] h-full"
           renderAnim={{
-            initial: { opacity: 0, y: "50vh" },
+            initial: { opacity: 0, y: "-50vh" },
             animate: {
               opacity: 1,
               y: "0vh",
               transition: {
-                delay: backDropActive ? 0 : 1,
+                delay: backDropActive ? 0 : 1.2,
                 type: "spring",
                 mass: 2,
                 duration: 3,
@@ -66,15 +66,16 @@ export const ShowCase: React.FC = () => {
             },
             exit: {
               opacity: 0,
-              y: "50vh",
+              y: "-50vh",
               transition: { duration: 1 },
             },
           }}
         >
           <ShadowyPortrait src="./kanade.png" />
+          {/* <CharIcon src="./kanade.png" clip="clip-square" /> */}
         </Animate>
         <Animate
-          className="flex w-[13vw] h-[80vh] pointer-events-auto"
+          className="pointer-events-auto w-[13vw] h-full"
           renderAnim={{
             initial: { opacity: 0, y: "-50vh" },
             animate: {
@@ -92,46 +93,22 @@ export const ShowCase: React.FC = () => {
             exit: {
               opacity: 0,
               y: "-50vh",
-              transition: { duration: 1 },
+              transition: { duration: 1.5 },
             },
           }}
         >
           <ShadowyPortrait src="./mafuyu.png" />
+          {/* <CharIcon src="./mafuyu.png" clip="clip-square" /> */}
         </Animate>
         <Animate
-          className="flex w-[13vw] h-[80vh] pointer-events-auto"
-          renderAnim={{
-            initial: { opacity: 0, y: "50vh" },
-            animate: {
-              opacity: 1,
-              y: "0vh",
-              transition: {
-                delay: backDropActive ? 0 : 1,
-                type: "spring",
-                mass: 2,
-                duration: 3,
-                stiffness: 25,
-                bounce: 0.5,
-              },
-            },
-            exit: {
-              opacity: 0,
-              y: "50vh",
-              transition: { duration: 1 },
-            },
-          }}
-        >
-          <ShadowyPortrait src="./ena.png" />
-        </Animate>
-        <Animate
-          className="flex w-[13vw] h-[80vh] pointer-events-auto"
+          className="pointer-events-auto w-[13vw] h-full"
           renderAnim={{
             initial: { opacity: 0, y: "-50vh" },
             animate: {
               opacity: 1,
               y: "0vh",
               transition: {
-                delay: backDropActive ? 0 : 1,
+                delay: backDropActive ? 0 : 1.3,
                 type: "spring",
                 mass: 2,
                 duration: 3,
@@ -142,17 +119,38 @@ export const ShowCase: React.FC = () => {
             exit: {
               opacity: 0,
               y: "-50vh",
-              transition: { duration: 1 },
+              transition: { duration: 1.1 },
+            },
+          }}
+        >
+          <ShadowyPortrait src="./ena.png" />
+          {/* <CharIcon src="./ena.png" clip="clip-square" /> */}
+        </Animate>
+        <Animate
+          className="pointer-events-auto w-[13vw] h-full"
+          renderAnim={{
+            initial: { opacity: 0, y: "-50vh" },
+            animate: {
+              opacity: 1,
+              y: "0vh",
+              transition: {
+                delay: backDropActive ? 0 : 1.1,
+                type: "spring",
+                mass: 2,
+                duration: 3,
+                stiffness: 25,
+                bounce: 0.5,
+              },
+            },
+            exit: {
+              opacity: 0,
+              y: "-50vh",
+              transition: { duration: 1.3 },
             },
           }}
         >
           <ShadowyPortrait src="./mizuki.png" />
-          {/* <div className="flex justify-center items-center w-full h-full group">
-            <div className="relative w-full h-full">
-              <div className="absolute w-full h-full bg-nightcord-20 clip-rhombus"></div>
-              <div className="absolute group-hover:-bottom-5 w-full h-full bg-nightcord-70 clip-rhombus z-[-1]"></div>
-            </div>
-          </div> */}
+          {/* <CharIcon src="./mizuki.png" clip="clip-square" /> */}
         </Animate>
       </div>
     </div>

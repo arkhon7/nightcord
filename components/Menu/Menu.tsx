@@ -23,32 +23,32 @@ export const Menu = () => {
           className="w-full h-auto menu-btn my-4"
           onClick={() => handleSectionScrollClick(1)}
         >
-          <div className="mx-[5vw] sm:mx-[3vw] fluid-font menu-btn-font-val font-proxima font-thin text-nightcord-70 opacity-70">
-            About
+          <div className="mx-[5vw] sm:mx-[3vw] fluid-font menu-btn-font-val font-proxima tracking-[0.2em] font-normal text-nightcord-70 opacity-70">
+            ABOUT
           </div>
         </div>
         <div
           className="w-full h-auto menu-btn my-4"
           onClick={() => handleSectionScrollClick(2)}
         >
-          <div className="mx-[5vw] sm:mx-[3vw] fluid-font menu-btn-font-val font-proxima font-thin text-nightcord-70 opacity-70">
-            Talents
+          <div className="mx-[5vw] sm:mx-[3vw] fluid-font menu-btn-font-val font-proxima tracking-[0.2em] font-normal text-nightcord-70 opacity-70">
+            TALENTS
           </div>
         </div>
         <div
           className="w-full h-auto menu-btn my-4"
           onClick={() => handleSectionScrollClick(3)}
         >
-          <div className="mx-[5vw] sm:mx-[3vw] fluid-font menu-btn-font-val font-proxima font-thin text-nightcord-70 opacity-70">
-            Uploads
+          <div className="mx-[5vw] sm:mx-[3vw] fluid-font menu-btn-font-val font-proxima tracking-[0.2em] font-normal text-nightcord-70 opacity-70">
+            UPLOADS
           </div>
         </div>
         <div
           className="w-full h-auto menu-btn my-4"
           onClick={() => handleSectionScrollClick(4)}
         >
-          <div className="mx-[5vw] sm:mx-[3vw] fluid-font menu-btn-font-val font-proxima font-thin text-nightcord-70 opacity-70">
-            Credits
+          <div className="mx-[5vw] sm:mx-[3vw] fluid-font menu-btn-font-val font-proxima tracking-[0.2em] font-normal text-nightcord-70 opacity-70">
+            GALLERY
           </div>
         </div>
       </div>
