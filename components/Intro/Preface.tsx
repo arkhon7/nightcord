@@ -26,7 +26,7 @@ export const Preface = () => {
           onClick={handleReadMore}
           className="bg-nightcord-70 bg-opacity-70 rounded-[25px] mt-5  group hover:bg-nightcord-30 transition duration-500"
         >
-          <div className="text-nightcord-110 shadow-md font-proxima tracking-widest font-normal pt-3 pb-2 px-4 fluid-font readbtn-font-val group-hover:text-nightcord-70 transition duration-500">
+          <div className="text-nightcord-110 font-proxima tracking-widest font-normal pt-3 pb-2 px-4 fluid-font readbtn-font-val group-hover:text-nightcord-70 transition duration-500">
             READ MORE
           </div>
         </button>

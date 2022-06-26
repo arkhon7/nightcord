@@ -14,8 +14,8 @@ export const AboutP = () => {
             </q>
           </div>
           <div className="relative flex items-center after:absolute after:content-[''] after:w-[15px] after:h-[15px] after:right-[10%] after:hover:translate-x-[5px] after:bg-nightcord-30 after:clip-triangle after:transition after:duration-500">
-            <button className="px-16 py-2 border-2 border-nightcord-30">
-              <a className="text-nightcord-70 fluid-font about-btn-font-val font-proxima font-thin tracking-widest">
+            <button className="px-12 py-2 border-2 border-nightcord-30">
+              <a className="text-nightcord-70 fluid-font readbtn-font-val font-proxima font-thin tracking-widest">
                 Our Talents
               </a>
             </button>

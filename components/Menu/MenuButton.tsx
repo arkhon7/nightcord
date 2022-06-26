@@ -5,13 +5,10 @@ export const MenuButton: React.FC = () => {
   const isActive = useMenuStore((state) => state.isActive);
   const toggleMenu = useMenuStore((state) => state.toggleMenu);
 
-  // use slider to slide into other sections
-
   const handleToggleMenu = () => {
     toggleMenu();
   };
 
-  console.log(isActive);
   return (
     <div className="absolute z-[999] w-full flex justify-end visible sm:invisible">
       <div

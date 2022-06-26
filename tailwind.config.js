@@ -66,6 +66,7 @@ const customShapeClips = plugin(function ({ addUtilities }) {
 });
 
 module.exports = {
+  mode: "jit",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -94,6 +95,26 @@ module.exports = {
         brandon: ["brandon", "sans-serif"],
         "brandon-thin": ["brandon-thin", "sans-serif"],
       },
+      dropShadow: {
+        10: "0 0 5px #9099E3ff",
+        20: "0 0 5px #394798ff",
+        30: "0 0 5px #925BB4ff",
+        40: "0 0 5px #AD7FCDff",
+        50: "0 0 5px #A285CEff",
+        60: "0 0 5px #DFC8EFff",
+        70: "0 0 5px #F2F4F6ff",
+        80: "0 0 5px #404451ff",
+        90: "0 0 5px #666A77ff",
+        100: "0 0 5px #B1B2E9ff",
+        110: "0 0 5px #141516",
+      },
+      backgroundImage: {
+        kanade: "url('/kanade-full.png')",
+        mafuyu: "url('/mafuyu-full.png')",
+        enanan: "url('/ena-full.png')",
+        mizuki: "url('/mizuki-full.png')",
+        refusal: "url('/bg_school_refusal.png')",
+      },
     },
     screens: {
       sm: "576px",
@@ -102,20 +123,6 @@ module.exports = {
       xl: "1200px",
       "2xl": "1400px",
     },
-
-    dropShadow: {
-      10: "0 0 5px #9099E3ff",
-      20: "0 0 5px #394798ff",
-      30: "0 0 5px #925BB4ff",
-      40: "0 0 5px #AD7FCDff",
-      50: "0 0 5px #A285CEff",
-      60: "0 0 5px #DFC8EFff",
-      70: "0 0 5px #F2F4F6ff",
-      80: "0 0 5px #404451ff",
-      90: "0 0 5px #666A77ff",
-      100: "0 0 5px #B1B2E9ff",
-      110: "0 0 5px #141516",
-    },
   },
   variants: {
     extend: {
@@ -123,5 +130,10 @@ module.exports = {
     },
   },
 
-  plugins: [require("tailwindcss-animation"), textShadow, customShapeClips],
+  plugins: [
+    require("tailwindcss-animation"),
+    require("@kamona/tailwindcss-perspective"),
+    textShadow,
+    customShapeClips,
+  ],
 };

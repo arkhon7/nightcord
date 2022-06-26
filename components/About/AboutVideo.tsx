@@ -1,8 +1,14 @@
 import React from "react";
 import { BsPlayCircleFill } from "react-icons/bs";
+import { useSliderStore } from "../../app/store";
+
 export const AboutVideo = () => {
+  const index = useSliderStore((state) => state.index);
+
   return (
-    <div className="w-full h-full flex justify-center items-end md:justify-end md:items-center">
+    <div
+      className={`w-full h-full flex justify-center items-end md:justify-end md:items-center`}
+    >
       <div className="min-w-[360px] max-w-[496px] p-5 md:max-w-[640px]">
         <div className="relative w-full h-full">
           <div className="relative w-full h-full group overflow-hidden z-20">

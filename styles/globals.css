@@ -6,8 +6,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  [data-v="niigo-25-mem"] {}
+}
 
 @layer base {
+
 
   @font-face {
     font-family: proxima-nova;

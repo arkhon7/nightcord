@@ -16,7 +16,8 @@ import { SmoothSlider } from "../layouts/SmoothSliderLayout";
 import { Parallax } from "../layouts/ParallaxLayout";
 
 // components
-import { ShowCase, CharInfo } from "../components/ShowCaseSection";
+// import { ShowCase, CharInfo } from "../components/ShowCaseSection";
+import { ShowCase } from "../components/ShowCase";
 import { Menu, MenuButton } from "../components/Menu";
 import { Animate, Animation } from "../components/Animation";
 import { NavBar } from "../components/NavBar";
@@ -72,10 +73,11 @@ export default function Home() {
           className="relative flex justify-center items-center w-screen h-screen z-50"
           offset={-200}
         >
-          <Animation>
+          {/* <Animation>
             <ShowCase />
             <CharInfo />
-          </Animation>
+          </Animation> */}
+          <ShowCase />
         </Slide>
         <Slide
           className="flex justify-center items-center w-screen h-screen"
