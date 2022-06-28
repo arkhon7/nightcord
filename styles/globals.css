@@ -24,8 +24,8 @@
   }
 
   @font-face {
-    font-family: brandon-thin;
-    src: url(/font/brandon-grotesque-thin.otf);
+    font-family: brandon-light;
+    src: url(/font/brandon-grotesque-light.otf);
   }
 
   html,
@@ -95,36 +95,6 @@
 }
 
 
-.char-box-shadow::before {
-  content: '';
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-
-  box-shadow: 0 -45vh 50vw 2vw rgba(20, 21, 22, 1) inset;
-  -webkit-box-shadow: 0 -45vh 50vw 2vw rgba(20, 21, 22, 1) inset;
-  -moz-box-shadow: 0 -45vh 50vw 2vw rgba(20, 21, 22, 1) inset;
-  /* background-color: rgba(20, 21, 22, 0.5); */
-  /* background-image: linear-gradient(to top, rgba(20, 21, 22, 0.8), rgba(20, 21, 22, 0.8)); */
-
-  width: 100%;
-  height: 100%;
-  transition-duration: 1s;
-  bottom: 0;
-}
-
-.char-box-shadow:hover::before {
-  box-shadow: 0 -42vh 50vw 1vw rgba(20, 21, 22, 1) inset;
-  -webkit-box-shadow: 0 -42vh 50vw 1vw rgba(20, 21, 22, 1) inset;
-  -moz-box-shadow: 0 -42vh 50vw 1vw rgba(20, 21, 22, 1) inset;
-  /* background-color: rgba(20, 21, 22, 0.2); */
-  /* background-image: linear-gradient(to top, rgba(20, 21, 22, 0.8), rgba(20, 21, 22, 0.4)); */
-
-}
-
-.char-box-shadow:hover::before~div {
-  transform: scale(1.05, 1.05);
-}
 
 .name-font-val {
   --fluid-font-min: 13;
@@ -188,7 +158,7 @@
 
   --fluid-font-min: 10;
   --fluid-font-max: 12;
-  --fluid-font-min-css: 12px;
+  --fluid-font-min-css: 10px;
   --fluid-font-min-viewport: 360;
   --fluid-font-max-viewport: 1440;
   --fluid-font-min-viewport-css: 360px;

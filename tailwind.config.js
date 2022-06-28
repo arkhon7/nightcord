@@ -93,7 +93,7 @@ module.exports = {
         raleway: ["Raleway", "sans-serif"],
         proxima: ["proxima-nova", "sans-serif"],
         brandon: ["brandon", "sans-serif"],
-        "brandon-thin": ["brandon-thin", "sans-serif"],
+        "brandon-light": ["brandon-light", "sans-serif"],
       },
       dropShadow: {
         10: "0 0 5px #9099E3ff",
@@ -115,6 +115,30 @@ module.exports = {
         mizuki: "url('/mizuki-full.png')",
         refusal: "url('/bg_school_refusal.png')",
       },
+      keyframes: {
+        expand: {
+          "0%": {
+            width: "0%",
+          },
+          "100%": {
+            width: "100%",
+          },
+        },
+        shrink: {
+          "0%": {
+            width: "100%",
+          },
+          "100%": {
+            width: "0%",
+          },
+        },
+      },
+      animation: {
+        expand: "expand",
+        shrink: "shrink",
+        "slow-max-zindex": "slow-max-zindex",
+        "slow-min-zindex": "slow-min-zindex",
+      },
     },
     screens: {
       sm: "576px",
@@ -131,7 +155,6 @@ module.exports = {
   },
 
   plugins: [
-    require("tailwindcss-animation"),
     require("@kamona/tailwindcss-perspective"),
     textShadow,
     customShapeClips,
