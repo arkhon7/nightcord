@@ -2,13 +2,13 @@ import React from "react";
 
 export const IntroVideo = () => {
   return (
-    <div className="absolute w-screen h-screen overflow-hidden flex justify-center items-center z-20 before:bg-nightcord-110 before:bg-opacity-80 before:content-[''] before:absolute before:w-full before:h-full">
+    <div className="absolute z-20 flex h-screen w-screen items-center justify-center overflow-hidden before:absolute before:h-full before:w-full before:bg-nightcord-110 before:bg-opacity-80 before:content-['']">
       <video
-        src="./aishite.mp4"
+        src="./assets/vid/aishite.mp4"
         muted
         autoPlay
         loop
-        className={`w-full h-full object-cover`}
+        className={`h-full w-full object-cover`}
       ></video>
     </div>
   );

@@ -2,10 +2,10 @@ import React from "react";
 
 export const Background = () => {
   return (
-    <div className="absolute w-full h-full before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-nightcord-110 before:object-cover before:opacity-[0.90]">
+    <div className="absolute h-full w-full before:absolute before:top-0 before:h-full before:w-full before:bg-nightcord-110 before:object-cover before:opacity-[0.90] before:content-['']">
       <img
-        src="/bg_school_refusal.png"
-        className="w-full h-full object-cover"
+        src="/assets/image/bg_school_refusal.png"
+        className="h-full w-full object-cover"
       ></img>
     </div>
   );

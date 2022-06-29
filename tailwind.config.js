@@ -139,6 +139,7 @@ module.exports = {
         "slow-max-zindex": "slow-max-zindex",
         "slow-min-zindex": "slow-min-zindex",
       },
+      prose: {},
     },
     screens: {
       sm: "576px",

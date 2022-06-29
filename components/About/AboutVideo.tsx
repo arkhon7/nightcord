@@ -7,19 +7,19 @@ export const AboutVideo = () => {
 
   return (
     <div
-      className={`w-full h-full flex justify-center items-end md:justify-end md:items-center`}
+      className={`flex h-full w-full items-end justify-center md:items-center md:justify-end`}
     >
       <div className="min-w-[360px] max-w-[496px] p-5 md:max-w-[640px]">
-        <div className="relative w-full h-full">
-          <div className="relative w-full h-full group overflow-hidden z-20">
+        <div className="relative h-full w-full">
+          <div className="group relative z-20 h-full w-full overflow-hidden">
             <video
-              src="/aishite.mp4"
+              src="/assets/vid/aishite.mp4"
               autoPlay
               loop
               muted
               className="transition duration-500 group-hover:scale-110"
             ></video>
-            <BsPlayCircleFill className="w-[20%] h-[20%] text-nightcord-30 transition duration-500 opacity-0 group-hover:opacity-70 absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%]" />
+            <BsPlayCircleFill className="absolute left-[50%] top-[50%] h-[20%] w-[20%] translate-x-[-50%] translate-y-[-50%] text-nightcord-30 opacity-0 transition duration-500 group-hover:opacity-70" />
           </div>
         </div>
       </div>
