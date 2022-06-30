@@ -1,8 +1,9 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import { VscClose } from "react-icons/vsc";
 import { BsMicFill } from "react-icons/bs";
 
 import useSound from "use-sound";
+import { TalentWrapper } from "./TalentWrapper";
 
 type styleState = {
   id: string;
@@ -79,19 +80,35 @@ const kanadeStyles: styleState = {
   leftOfActive:
     "transition duration-500 brightness-[.6] translate-x-[calc(80vw*0.02)] lg:translate-x-[calc(min(992px,80vw)*0.02)]",
   rightOfActive:
-    "transition duration-500 brightness-[.6] translate-x-[calc(-(80vw*0.02))] lg:translate-x-[calc(-(min(992px,80vw)*0.02))]",
+    "transition duration-500 brightness-[.6] translate-x-[calc(80vw*-0.02)] lg:translate-x-[calc(min(992px,80vw)*-0.02)]",
   selected:
     "transition duration-500 brightness-[.9] translate-x-[calc(80vw*0.0625)] lg:translate-x-[calc(min(992px,80vw)*0.0625)] scale-125 translate-y-[10%] z-10",
   unselected: "transition duration-500 brightness-[.4]",
 };
 
+interface IShowCaseContext {
+  activeId: string | null;
+  setActiveId: React.Dispatch<SetStateAction<string | null>>;
+  selectedId: string | null;
+  setSelectedId: React.Dispatch<SetStateAction<string | null>>;
+}
+
+const ShowCaseContext = React.createContext<IShowCaseContext>({
+  activeId: null,
+  setActiveId: () => {},
+  selectedId: null,
+  setSelectedId: () => {},
+});
+
+export const useShowCase = () => React.useContext(ShowCaseContext);
+
 const getStyles = (
   activeId: string,
-  targetId: string,
+  selectedId: string,
   styleState: styleState
 ) => {
-  if (targetId !== "") {
-    if (targetId === styleState.id) {
+  if (selectedId !== "") {
+    if (selectedId === styleState.id) {
       return styleState.selected;
     } else {
       return styleState.unselected;
@@ -110,22 +127,15 @@ const getStyles = (
 };
 
 export const ShowCase = () => {
-  const [activeId, setActiveId] = React.useState<string>("");
-  const [targetId, setTargetId] = React.useState<string>("");
-
-  const [currentSound, setCurrentSound] = React.useState<string>(""); // to specify audio to play
-  const [playing, togglePlaying] = React.useState(false); // to determine if audio is playing or not
-
-  const [play, { stop }] = useSound(`/assets/audio/mizuki.mp3`, {
-    volume: 0.25,
-  }); // TODO
+  const [activeId, setActiveId] = React.useState<string | null>(null);
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
 
   const handleClickActive = (e: React.SyntheticEvent<HTMLLIElement>) => {
     if (!(e.target instanceof HTMLLIElement)) return;
     const name = e.target.dataset.name;
 
     if (name !== undefined) {
-      setTargetId(name);
+      setSelectedId(name);
     }
   };
 
@@ -145,219 +155,116 @@ export const ShowCase = () => {
   //styles
 
   return (
-    <div className={`relative flex h-full w-full items-center justify-center`}>
-      <ul
-        className={`absolute z-30 h-[60vh] w-[80vw] lg:max-w-[992px] ${
-          targetId === "" ? "invisible sm:visible" : "invisible"
-        }`}
+    <ShowCaseContext.Provider
+      value={{
+        activeId: activeId,
+        selectedId: selectedId,
+        setActiveId: setActiveId,
+        setSelectedId: setSelectedId,
+      }}
+    >
+      <div
+        className={`relative flex h-full w-full items-center justify-center`}
       >
-        <li
-          className="absolute inline-block h-full w-[25%]"
-          onMouseEnter={handleEnterHover}
-          onMouseLeave={handleLeaveHover}
-          onClick={handleClickActive}
-          data-name={"kanade"}
-        ></li>
+        <ul
+          className={`invisible absolute z-30 h-[60vh] w-[80vw] sm:visible lg:max-w-[992px] ${
+            selectedId === null ? "pointer-events-auto" : "pointer-events-none"
+          }`}
+        >
+          <li
+            className="absolute inline-block h-full w-[25%]"
+            onMouseEnter={handleEnterHover}
+            onMouseLeave={handleLeaveHover}
+            onClick={handleClickActive}
+            data-name={"kanade"}
+          ></li>
 
-        <li
-          className="absolute inline-block h-full w-[25%] translate-x-[calc(80vw*0.25)] 
+          <li
+            className="absolute inline-block h-full w-[25%] translate-x-[calc(80vw*0.25)] 
           lg:translate-x-[calc(min(992px,80vw)*0.25)]"
-          onMouseEnter={handleEnterHover}
-          onMouseLeave={handleLeaveHover}
-          onClick={handleClickActive}
-          data-name={"mafuyu"}
-        ></li>
+            onMouseEnter={handleEnterHover}
+            onMouseLeave={handleLeaveHover}
+            onClick={handleClickActive}
+            data-name={"mafuyu"}
+          ></li>
 
-        <li
-          className="absolute inline-block h-full w-[25%] translate-x-[calc(80vw*0.5)] 
+          <li
+            className="absolute inline-block h-full w-[25%] translate-x-[calc(80vw*0.5)] 
           lg:translate-x-[calc(min(992px,80vw)*0.5)]"
-          onMouseEnter={handleEnterHover}
-          onMouseLeave={handleLeaveHover}
-          onClick={handleClickActive}
-          data-name={"ena"}
-        ></li>
+            onMouseEnter={handleEnterHover}
+            onMouseLeave={handleLeaveHover}
+            onClick={handleClickActive}
+            data-name={"ena"}
+          ></li>
 
-        <li
-          className="absolute inline-block h-full w-[25%] translate-x-[calc(80vw*0.75)]  
+          <li
+            className="absolute inline-block h-full w-[25%] translate-x-[calc(80vw*0.75)]  
           lg:translate-x-[calc(min(992px,80vw)*0.75)]"
-          onMouseEnter={handleEnterHover}
-          onMouseLeave={handleLeaveHover}
-          onClick={handleClickActive}
-          data-name={"mizuki"}
-        ></li>
-      </ul>
-      <ul className="invisible relative z-10 h-[60vh]  w-[80vw] sm:visible lg:max-w-[992px]">
-        <li
-          className={`pointer-events-none absolute inline-block h-full w-[25%] ${getStyles(
-            activeId,
-            targetId,
-            kanadeStyles
-          )}`}
-        >
-          <div
-            className="absolute left-[50%] top-[50%] w-[50vw] min-w-[300px] 
-          max-w-[500px] translate-x-[-50%] translate-y-[-50%]"
-          >
-            <img src="./assets/image/kanade-full.png" />
-          </div>
-          <div
-            className="pointer-events-auto absolute left-[50%] top-[50%] z-10 h-[45%]
-           w-[calc((80vw*0.5625)-(80vw*0.0625))] translate-y-[-50%] text-nightcord-70 lg:w-[calc((min(992px,80vw)*0.5625)-(min(992px,80vw)*0.0625))]"
-          >
-            <div
-              className={`overflow-hidden  ${
-                targetId === "kanade"
-                  ? "animate-[expand_300ms_ease-in-out_both_500ms]"
-                  : "animate-[shrink_500ms_ease-in-out_both]"
-              } h-full`}
-            >
-              <div className="relative h-full w-full">
-                <div className="absolute z-20 h-[25%] w-[60%] bg-nightcord-30">
-                  <h1>YOISAKI KANADE</h1>
-                </div>
-                <div className="absolute bottom-0 z-10 h-[87.5%] w-full bg-nightcord-110 opacity-90"></div>
-                <button
-                  className="absolute right-0 top-0 h-[calc(((60vh*0.45)*0.875)*0.125)] w-[calc(((60vh*0.45)*0.875)*0.125)]"
-                  onClick={() => setTargetId("")}
-                >
-                  <VscClose className="h-full w-full text-nightcord-30" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </li>
+            onMouseEnter={handleEnterHover}
+            onMouseLeave={handleLeaveHover}
+            onClick={handleClickActive}
+            data-name={"mizuki"}
+          ></li>
+        </ul>
+        <ul className="invisible relative z-10 h-[60vh]  w-[80vw] sm:visible lg:max-w-[992px]">
+          <TalentWrapper
+            name="kanade"
+            fullName="yoisaki kanade"
+            role="composer"
+            voice="Kusunoki Tomori"
+            description={`Kanade is traumatized by a time when her own music caused despair to 
+            someone important to her. Ever since that incident, she has been writing music to 
+            make others happy, and started the music circle 25-ji, Nightcord de.`}
+            audio="/assets/audio/mizuki-lower-cover.mp3"
+            image="/assets/image/kanade-full.png"
+            leftIds={[]}
+            rightIds={["mafuyu", "ena", "mizuki"]}
+            styleState={kanadeStyles}
+          />
+          <TalentWrapper
+            name="mafuyu"
+            fullName="asahina mafuyu"
+            role="lyricist"
+            voice="Tanabe Rui"
+            description={`Mafuyu is an honor student, and the only one who in her 
+            group who regularly attends school. However, not all is what it seems with her...`}
+            audio="/assets/audio/mizuki-lower-cover.mp3"
+            image="/assets/image/mafuyu-full.png"
+            leftIds={["kanade"]}
+            rightIds={["ena", "mizuki"]}
+            styleState={mafuyuStyles}
+          />
+          <TalentWrapper
+            name="ena"
+            fullName="shinonome ena"
+            role="artist"
+            voice="Suzuki Minori"
+            description={`Ena's father was a famous artist. She often draws and posts her drawings online. 
+            She has a great sense of social media and would like to get more popular.
+            Yoisaki Kanade saw some of her illustrations online and invited her to join her circle as an illustrator.`}
+            audio="/assets/audio/mizuki-lower-cover.mp3"
+            image="/assets/image/ena-full.png"
+            leftIds={["kanade", "mafuyu"]}
+            rightIds={["mizuki"]}
+            styleState={enaStyles}
+          />
+          <TalentWrapper
+            name="mizuki"
+            fullName="akiyama mizuki"
+            role="mv creator"
+            voice="Satou Hinata"
+            description={`Mizuki likes to uploads MVs online. They were captivated by Yoisaki Kanade's music upon listening to it. 
+            Kanade saw the MVs Mizuki made and invited them to her circle.
 
-        <li
-          className={`pointer-events-none absolute inline-block h-full w-[25%] ${getStyles(
-            activeId,
-            targetId,
-            mafuyuStyles
-          )}`}
-        >
-          <div className="absolute left-[50%] top-[50%] z-20 w-[50vw] min-w-[300px] max-w-[500px] translate-x-[-50%] translate-y-[-50%]">
-            <img src="./assets/image/mafuyu-full.png" />
-          </div>
-          <div className="pointer-events-auto absolute left-[50%] top-[50%] z-10 h-[45%] w-[calc((80vw*0.5625)-(80vw*0.0625))] translate-y-[-50%] text-nightcord-70 lg:w-[calc((min(992px,80vw)*0.5625)-(min(992px,80vw)*0.0625))]">
-            <div
-              className={`overflow-hidden  ${
-                targetId === "mafuyu"
-                  ? "animate-[expand_300ms_ease-in-out_both_500ms]"
-                  : "animate-[shrink_500ms_ease-in-out_both]"
-              } h-full`}
-            >
-              <div className="relative h-full w-full">
-                <div className="absolute z-20 h-[25%] w-[60%] bg-nightcord-30">
-                  <h1>ASAHINA MAFUYU</h1>
-                </div>
-                <div className="absolute bottom-0 z-10 h-[87.5%] w-full bg-nightcord-110 opacity-90"></div>
-                <button
-                  className="absolute right-0 top-0 z-10 h-[calc(((60vh*0.45)*0.875)*0.125)] w-[calc(((60vh*0.45)*0.875)*0.125)]"
-                  onClick={() => setTargetId("")}
-                >
-                  <VscClose className="h-full w-full text-nightcord-30" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </li>
-
-        <li
-          className={`pointer-events-none absolute inline-block h-full w-[25%] ${getStyles(
-            activeId,
-            targetId,
-            enaStyles
-          )}`}
-        >
-          <div className="absolute left-[50%] top-[50%] z-20 w-[50vw] min-w-[300px] max-w-[500px] translate-x-[-50%] translate-y-[-50%]">
-            <img src="./assets/image/ena-full.png" className="opacity-" />
-          </div>
-          <div className="pointer-events-auto absolute left-[50%] top-[50%] z-10 h-[45%] w-[calc((80vw*0.5625)-(80vw*0.0625))] translate-y-[-50%] text-nightcord-70 lg:w-[calc((min(992px,80vw)*0.5625)-(min(992px,80vw)*0.0625))]">
-            <div
-              className={`overflow-hidden  ${
-                targetId === "ena"
-                  ? "animate-[expand_300ms_ease-in-out_both_500ms]"
-                  : "animate-[shrink_500ms_ease-in-out_both]"
-              } h-full`}
-            >
-              <div className="relative h-full w-full">
-                <div className="absolute z-20 h-[25%] w-[60%] bg-nightcord-30">
-                  <h1>SHINONOME ENA</h1>
-                </div>
-                <div className="absolute bottom-0 z-10 h-[87.5%] w-full bg-nightcord-110 opacity-90"></div>
-                <button
-                  className="absolute right-0 top-0 h-[calc(((60vh*0.45)*0.875)*0.125)] w-[calc(((60vh*0.45)*0.875)*0.125)]"
-                  onClick={() => setTargetId("")}
-                >
-                  <VscClose className="h-full w-full text-nightcord-30" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </li>
-
-        <li
-          className={`pointer-events-none absolute inline-block h-full w-[25%] ${getStyles(
-            activeId,
-            targetId,
-            mizukiStyles
-          )}`}
-        >
-          <div className="absolute left-[50%] top-[50%] z-20 w-[50vw] min-w-[300px] max-w-[500px] translate-x-[-50%] translate-y-[-50%]">
-            <img src="./assets/image/mizuki-full.png" />
-          </div>
-
-          <div className="pointer-events-auto absolute left-[50%] top-[50%] z-10 h-[45%] min-h-[] w-[calc((80vw*0.5625)-(80vw*0.0625))] min-w-[290px] translate-y-[-50%] text-nightcord-70 lg:w-[calc((min(992px,80vw)*0.5625)-(min(992px,80vw)*0.0625))]">
-            <div
-              className={`overflow-hidden ${
-                targetId === "mizuki"
-                  ? "animate-[expand_300ms_ease-in-out_both_500ms]"
-                  : "animate-[shrink_500ms_ease-in-out_both]"
-              } h-full`}
-            >
-              <div className="relative h-full w-full">
-                <div className="absolute z-20 flex h-[25%] w-[60%] items-center justify-end bg-nightcord-30">
-                  <h1 className="fluid-font-md px-[2vw] font-brandon tracking-widest text-nightcord-70">
-                    MV CREATOR
-                  </h1>
-                </div>
-                <div className="absolute bottom-0 z-10 flex h-[87.5%] w-full flex-col items-end justify-evenly bg-nightcord-110 p-[2vw] opacity-[.95]">
-                  <div className="flex w-[80%] justify-between">
-                    <div className="flex items-center gap-2">
-                      <BsMicFill
-                        onClick={() => {
-                          play();
-                          console.log("playing!");
-                        }}
-                      />
-
-                      <h3 className="fluid-font-xs font-proxima">
-                        Satou Hinata
-                      </h3>
-                    </div>
-
-                    <h3 className="fluid-font-md font-brandon tracking-widest">
-                      AKIYAMA MIZUKI
-                    </h3>
-                  </div>
-
-                  <p className="fluid-font-xs w-[80%] font-proxima tracking-wide opacity-70">
-                    Akiyama Mizuki is a first year student at Kamiyama High
-                    School. They're the animator of the underground music circle
-                    25-ji, Nightcord de. — also known as Niigo (N25) — going by
-                    the alias "Amia".
-                  </p>
-                </div>
-                <button
-                  className="absolute right-0 top-0 h-[calc(((60vh*0.45)*0.875)*0.125)] w-[calc(((60vh*0.45)*0.875)*0.125)]"
-                  onClick={() => setTargetId("")}
-                >
-                  <VscClose className="h-full w-full text-nightcord-30" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+            Mizuki has a secret no one in the circle knows about.`}
+            audio="/assets/audio/mizuki.mp3"
+            image="/assets/image/mizuki-full.png"
+            leftIds={["ena", "mafuyu", "kanade"]}
+            rightIds={[]}
+            styleState={mizukiStyles}
+          />
+        </ul>
+      </div>
+    </ShowCaseContext.Provider>
   );
 };
