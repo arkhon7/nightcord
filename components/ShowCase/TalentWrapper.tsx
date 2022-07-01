@@ -1,10 +1,9 @@
 import React from "react";
-import { styleState, mizukiStyles, chooseStyleByState } from "./helper";
-import { useShowCase } from "./ShowCase";
+import { styleState, chooseStyleByState } from "./helper";
+import { useShowCase } from "./ShowCaseContext";
 
 import { BsMicFill } from "react-icons/bs";
 import { VscClose } from "react-icons/vsc";
-import useSound from "use-sound";
 
 interface ITalentWrapper {
   name: string;
@@ -21,7 +20,33 @@ interface ITalentWrapper {
 
 export const TalentWrapper = (props: ITalentWrapper) => {
   const showcase = useShowCase();
-  const [play] = useSound(props.audio, { volume: 0.3 });
+
+  const audio: React.RefObject<HTMLAudioElement> = React.useRef(null);
+
+  const handleAudio = async () => {
+    if (audio === null) return;
+
+    const currAudio = audio.current;
+
+    if (currAudio !== null) {
+      if (currAudio.paused && currAudio.currentTime >= 0) {
+        await currAudio.play();
+      } else {
+        currAudio.pause();
+      }
+    }
+  };
+
+  const handleResetResource = () => {
+    if (audio === null) return;
+
+    const currAudio = audio.current;
+    if (currAudio !== null) {
+      currAudio.currentTime = 0;
+      currAudio.pause();
+    }
+    showcase.setSelectedId(null);
+  };
 
   const styleByState = chooseStyleByState(
     showcase.activeId,
@@ -36,6 +61,9 @@ export const TalentWrapper = (props: ITalentWrapper) => {
     <li
       className={`pointer-events-none absolute inline-block h-full w-[25%] ${styleByState}`}
     >
+      <audio ref={audio}>
+        <source src={props.audio} />
+      </audio>
       <div className="absolute left-[50%] top-[50%] z-20 w-[50vw] min-w-[300px] max-w-[500px] translate-x-[-50%] translate-y-[-50%]">
         <img src={props.image} />
       </div>
@@ -58,11 +86,7 @@ export const TalentWrapper = (props: ITalentWrapper) => {
               <div className="flex h-[60%] w-[70%] flex-col justify-evenly gap-[0.5vw] pr-[2vw]">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-1">
-                    <BsMicFill
-                      onClick={() => {
-                        play();
-                      }}
-                    />
+                    <BsMicFill onClick={handleAudio} />
 
                     <h3 className="fluid-font-xs text-left font-proxima">
                       {props.voice}
@@ -81,7 +105,7 @@ export const TalentWrapper = (props: ITalentWrapper) => {
             </div>
             <button
               className="absolute right-0 top-0 h-[calc(((60vh*0.45)*0.875)*0.125)] w-[calc(((60vh*0.45)*0.875)*0.125)]"
-              onClick={() => showcase.setSelectedId(null)}
+              onClick={handleResetResource}
             >
               <VscClose className="h-full w-full text-nightcord-30" />
             </button>
