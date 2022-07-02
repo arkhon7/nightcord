@@ -5,6 +5,12 @@ import { useShowCase } from "./ShowCaseContext";
 import { BsMicFill } from "react-icons/bs";
 import { VscClose } from "react-icons/vsc";
 
+const micButtonStyle = {
+  active: "drop-shadow-30 text-nightcord-30 animate-pulse",
+  inactive: "",
+  paused: "text-nightcord-30",
+};
+
 interface ITalentWrapper {
   name: string;
   fullName: string;
@@ -18,34 +24,35 @@ interface ITalentWrapper {
   styleState: styleState;
 }
 
+type buttonState = "active" | "inactive" | "paused";
 export const TalentWrapper = (props: ITalentWrapper) => {
   const showcase = useShowCase();
-
   const audio: React.RefObject<HTMLAudioElement> = React.useRef(null);
+  const [micStatus, setMicStatus] = React.useState<buttonState>("inactive");
 
-  const handleAudio = async () => {
-    if (audio === null) return;
-
+  const handleAudio: () => void = async () => {
     const currAudio = audio.current;
 
     if (currAudio !== null) {
       if (currAudio.paused && currAudio.currentTime >= 0) {
+        currAudio.volume = 0.2;
         await currAudio.play();
+        setMicStatus("active");
       } else {
         currAudio.pause();
+        setMicStatus("paused");
       }
     }
   };
 
-  const handleResetResource = () => {
-    if (audio === null) return;
-
+  const handleResetResource: () => void = () => {
     const currAudio = audio.current;
     if (currAudio !== null) {
       currAudio.currentTime = 0;
       currAudio.pause();
     }
     showcase.setSelectedId(null);
+    setMicStatus("inactive");
   };
 
   const styleByState = chooseStyleByState(
@@ -57,11 +64,21 @@ export const TalentWrapper = (props: ITalentWrapper) => {
     props.styleState
   );
 
+  const chooseButtonStyle = (status: buttonState) => {
+    if (status === "paused") {
+      return micButtonStyle.paused;
+    } else if (status === "active") {
+      return micButtonStyle.active;
+    } else {
+      return micButtonStyle.inactive;
+    }
+  };
+
   return (
     <li
       className={`pointer-events-none absolute inline-block h-full w-[25%] ${styleByState}`}
     >
-      <audio ref={audio}>
+      <audio ref={audio} onEnded={() => setMicStatus("inactive")}>
         <source src={props.audio} />
       </audio>
       <div className="absolute left-[50%] top-[50%] z-20 w-[50vw] min-w-[300px] max-w-[500px] translate-x-[-50%] translate-y-[-50%]">
@@ -86,7 +103,12 @@ export const TalentWrapper = (props: ITalentWrapper) => {
               <div className="flex h-[60%] w-[70%] flex-col justify-evenly gap-[0.5vw] pr-[2vw]">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-1">
-                    <BsMicFill onClick={handleAudio} />
+                    <BsMicFill
+                      onClick={handleAudio}
+                      className={`${chooseButtonStyle(
+                        micStatus
+                      )} transition duration-500 hover:drop-shadow-30`}
+                    />
 
                     <h3 className="fluid-font-xs text-left font-proxima">
                       {props.voice}

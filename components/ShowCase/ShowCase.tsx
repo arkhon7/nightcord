@@ -2,13 +2,7 @@ import React from "react";
 import { TalentWrapper } from "./TalentWrapper";
 import { ShowCaseContext } from "./ShowCaseContext";
 
-import {
-  styleState,
-  kanadeStyles,
-  mafuyuStyles,
-  enaStyles,
-  mizukiStyles,
-} from "./helper";
+import { kanadeStyles, mafuyuStyles, enaStyles, mizukiStyles } from "./helper";
 
 export const ShowCase = () => {
   const [activeId, setActiveId] = React.useState<string | null>(null);
@@ -121,7 +115,7 @@ export const ShowCase = () => {
           <TalentWrapper
             name="ena"
             fullName="shinonome ena"
-            role="artist"
+            role="illustrator"
             voice="Suzuki Minori"
             description={`Ena's father was a famous artist. She often draws and posts her drawings online. 
             She has a great sense of social media and would like to get more popular.
