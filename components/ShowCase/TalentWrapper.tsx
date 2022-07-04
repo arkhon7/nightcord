@@ -1,6 +1,7 @@
 import React from "react";
 import { styleState, chooseStyleByState } from "./helper";
 import { useShowCase } from "./ShowCaseContext";
+import { useSliderStore } from "../../app/store";
 
 import { BsMicFill } from "react-icons/bs";
 import { VscClose } from "react-icons/vsc";
@@ -26,6 +27,7 @@ interface ITalentWrapper {
 
 type buttonState = "active" | "inactive" | "paused";
 export const TalentWrapper = (props: ITalentWrapper) => {
+  const doneSecond = useSliderStore((state) => state.doneSecond);
   const showcase = useShowCase();
   const audio: React.RefObject<HTMLAudioElement> = React.useRef(null);
   const [micStatus, setMicStatus] = React.useState<buttonState>("inactive");
@@ -74,6 +76,8 @@ export const TalentWrapper = (props: ITalentWrapper) => {
     }
   };
 
+  // TODO ADD FADE IN ANIMATION TO IMAGES
+
   return (
     <li
       className={`pointer-events-none absolute inline-block h-full w-[25%] ${styleByState}`}
@@ -81,11 +85,22 @@ export const TalentWrapper = (props: ITalentWrapper) => {
       <audio ref={audio} onEnded={() => setMicStatus("inactive")}>
         <source src={props.audio} />
       </audio>
-      <div className="absolute left-[50%] top-[50%] z-20 w-[50vw] min-w-[300px] max-w-[500px] translate-x-[-50%] translate-y-[-50%]">
+      <div
+        className={`absolute left-[50%] top-[50%] z-20 w-[50vw] min-w-[300px] max-w-[500px] 
+        translate-x-[-50%] translate-y-[-50%]  ${
+          doneSecond
+            ? "opacity-100 transition delay-1000 duration-1000"
+            : "translate-x-[-55%] opacity-0 brightness-[0.2]"
+        }`}
+      >
         <img src={props.image} />
       </div>
 
-      <div className="pointer-events-auto absolute left-[50%] top-[50%] z-10 h-[45%] w-[calc((80vw*0.5625)-(80vw*0.0625))] min-w-[320px] translate-y-[-50%] text-nightcord-70 lg:w-[calc((min(992px,80vw)*0.5625)-(min(992px,80vw)*0.0625))]">
+      <div
+        className="pointer-events-auto absolute left-[50%] top-[50%] z-10 h-[45%] 
+      w-[calc((80vw*0.5625)-(80vw*0.0625))] min-w-[320px] translate-y-[-50%] text-nightcord-70 
+      lg:w-[calc((min(992px,80vw)*0.5625)-(min(992px,80vw)*0.0625))]"
+      >
         <div
           className={`overflow-hidden ${
             showcase.selectedId === props.name
@@ -99,7 +114,10 @@ export const TalentWrapper = (props: ITalentWrapper) => {
                 {props.role.toUpperCase()}
               </h1>
             </div>
-            <div className="absolute bottom-0 z-10 flex h-[87.5%] w-full flex-col items-end justify-evenly gap-[2vh] bg-nightcord-110  opacity-[.95]">
+            <div
+              className="absolute bottom-0 z-10 flex h-[87.5%] w-full flex-col items-end justify-evenly 
+            gap-[2vh] bg-nightcord-110  opacity-[.95]"
+            >
               <div className="flex h-[60%] w-[70%] flex-col justify-evenly gap-[0.5vw] pr-[2vw]">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-1">

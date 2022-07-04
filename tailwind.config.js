@@ -132,12 +132,21 @@ module.exports = {
             width: "0%",
           },
         },
+        "fade-in": {
+          "0%": {
+            transform: "translateY(-20px)",
+            opacity: "0"
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: "1"
+          }
+        }
       },
       animation: {
         expand: "expand",
         shrink: "shrink",
-        "slow-max-zindex": "slow-max-zindex",
-        "slow-min-zindex": "slow-min-zindex",
+        "fade-in": "fade-in"
       },
       prose: {},
     },

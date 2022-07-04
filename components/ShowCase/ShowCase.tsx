@@ -42,10 +42,10 @@ export const ShowCase = () => {
       }}
     >
       <div
-        className={`relative flex h-full w-full items-center justify-center`}
+        className={`invisible relative flex h-full w-full items-center justify-center sm:visible`}
       >
         <ul
-          className={`invisible absolute z-30 h-[60vh] w-[80vw] sm:visible lg:max-w-[992px] ${
+          className={`absolute z-30 h-[60vh] w-[80vw] lg:max-w-[992px] ${
             selectedId === null ? "pointer-events-auto" : "pointer-events-none"
           }`}
         >
@@ -84,7 +84,7 @@ export const ShowCase = () => {
             data-name={"mizuki"}
           ></li>
         </ul>
-        <ul className="invisible relative z-10 h-[60vh]  w-[80vw] sm:visible lg:max-w-[992px]">
+        <ul className="relative z-10 h-[60vh]  w-[80vw] lg:max-w-[992px]">
           <TalentWrapper
             name="kanade"
             fullName="yoisaki kanade"
@@ -142,6 +142,9 @@ export const ShowCase = () => {
             styleState={mizukiStyles}
           />
         </ul>
+      </div>
+      <div className="visible absolute flex h-full w-full items-center justify-center sm:invisible">
+        <div className="h-full w-full bg-nightcord-30">TODO</div>
       </div>
     </ShowCaseContext.Provider>
   );
