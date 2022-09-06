@@ -116,7 +116,27 @@ module.exports = {
         refusal: "url('/bg_school_refusal.png')",
       },
       keyframes: {
-        expand: {
+        "select": {
+          "0%": {
+          "z-index": "999",
+          },
+          "100%": {
+            "z-index": "999"
+          }
+        },
+        "unselect": {
+          "0%": {
+            "z-index": "999",
+          },
+          "99.99%" : {
+            "z-index": "999"
+          },
+          "100%": {
+            "z-index": "0"
+          }
+        },
+
+        "expand-width": {
           "0%": {
             width: "0%",
           },
@@ -124,13 +144,31 @@ module.exports = {
             width: "100%",
           },
         },
-        shrink: {
+        "shrink-width": {
           "0%": {
             width: "100%",
           },
           "100%": {
             width: "0%",
           },
+        },
+        "expand-height": {
+          "0%": {
+            height: "0"
+          },
+
+          "100%": {
+            height: "100%",
+          },
+        },
+        "shrink-height": {
+          "0%": {
+            height: "100%"
+          },
+          "100%": {
+            height: "0%",
+          },
+          
         },
         "fade-in": {
           "0%": {

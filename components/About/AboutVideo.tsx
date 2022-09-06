@@ -12,15 +12,19 @@ export const AboutVideo = () => {
     >
       <div className="min-w-[360px] max-w-[496px] p-5 md:max-w-[640px]">
         <div
-          className="relative h-full w-full before:absolute before:top-[-10px] before:right-[-10px] 
+          className={`relative h-full w-full before:absolute before:top-[-10px] before:right-[-10px] 
       before:z-20 before:h-[20%] before:w-[20%] before:border-t-4 before:border-r-4 before:border-nightcord-30 
       before:content-[''] after:absolute after:bottom-[-10px] after:left-[-10px] after:-z-20 after:h-[20%] after:w-[20%] 
-      after:border-b-4 after:border-l-4 after:border-nightcord-30 after:content-['']"
+      after:border-b-4 after:border-l-4 after:border-nightcord-30 after:content-[''] ${
+        doneFirst
+          ? "animate-[fade-in_500ms_both_1000ms_ease-in-out]"
+          : "opacity-0"
+      }`}
         >
           <div
             className={`group relative z-20 h-full w-full overflow-hidden ${
               doneFirst
-                ? "animate-[fade-in_500ms_both_1000ms_ease-in-out]"
+                ? "animate-[fade-in_500ms_both_1400ms_ease-in-out]"
                 : "opacity-0"
             }`}
           >

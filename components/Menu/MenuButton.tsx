@@ -10,9 +10,9 @@ export const MenuButton: React.FC = () => {
   };
 
   return (
-    <div className="absolute z-[999] w-full flex justify-end visible sm:invisible">
+    <div className="visible absolute z-[999] flex w-full justify-end sm:invisible">
       <div
-        className={`bg-opacity-70 p-[0.5rem] rounded-md transition duration-300 m-2 ${
+        className={`m-2 rounded-md bg-opacity-70 p-[0.5rem] transition duration-300 ${
           isActive ? "transparent" : "bg-nightcord-110"
         }`}
       >

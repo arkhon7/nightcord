@@ -21,7 +21,13 @@ export const AboutP = () => {
             }`}
           ></img>
 
-          <div className="fluid-font about-font-val text-center font-proxima font-normal tracking-widest text-nightcord-70">
+          <div
+            className={`fluid-font about-font-val text-center font-proxima font-normal tracking-widest text-nightcord-70 ${
+              doneFirst
+                ? "animate-[fade-in_500ms_ease-in-out_both_1100ms]"
+                : "opacity-0"
+            }`}
+          >
             <q>
               An underground music circle that makes songs on the internet at
               1:00 AM.
@@ -32,7 +38,7 @@ export const AboutP = () => {
             after:h-[15px] after:w-[15px] after:bg-nightcord-30 after:transition 
             after:duration-500 after:content-[''] after:clip-triangle after:hover:translate-x-[5px] ${
               doneFirst
-                ? "animate-[fade-in_500ms_ease-in-out_both_1000ms]"
+                ? "animate-[fade-in_500ms_ease-in-out_both_1200ms]"
                 : "opacity-0"
             }`}
           >
