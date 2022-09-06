@@ -95,6 +95,7 @@ export const TalentSection: React.FC = () => {
 
               return (
                 <div
+                  key={data.firstName}
                   className="absolute h-auto w-[25%] items-center justify-center"
                   style={{
                     transform: `translateX(calc(min(80vw,1000px) * ${placement})`,
