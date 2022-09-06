@@ -117,7 +117,9 @@ export const TalentSection: React.FC = () => {
         )}
         <section className="absolute z-10 flex h-full w-[min(80vw,1000px)] items-center justify-start">
           {talents.map((data, index) => {
-            return <TalentContainer data={data} index={index} />;
+            return (
+              <TalentContainer key={data.firstName} data={data} index={index} />
+            );
           })}
         </section>
       </main>
